@@ -2,7 +2,7 @@
 import random
 
 # a helper function that generates a random id number
-def generateRandID():
+def generate_random_id():
   """
   Generate a random 7 digit id number
   Parameters:
@@ -13,7 +13,7 @@ def generateRandID():
   return ''.join(str(random.randint(0,9)) for _ in range(7))
 
 # a helper function that generates a New Zealand NHI number
-def generateNHI():
+def generate_nhi_id():
   """
   Generates a valid NHI number
   Parameters:

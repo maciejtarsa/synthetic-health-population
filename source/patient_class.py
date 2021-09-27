@@ -6,9 +6,8 @@ class Patient:
 
     # variables?
 
-
     # constructor
-    def __init__(self, id, region, area, ethnicity, gender, age_range, dob, deprivation_level):
+    def __init__(self, id, region, area, ethnicity, gender, age_range, dob, age, deprivation_level):
         self.id = id
         self.region = region
         self.area = area
@@ -16,6 +15,7 @@ class Patient:
         self.gender = gender
         self.age_range = age_range
         self.dob = dob
+        self.age = age
         self.deprivation_level = deprivation_level
         self.timelines = {}
         

@@ -4,7 +4,9 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from random import randrange
 from datetime import timedelta
+from datetime import datetime, date
 
+# select region
 def select_region(demographics):
   """
   Selects a region based on provided demographics
@@ -21,6 +23,7 @@ def select_region(demographics):
   region = random.choices(regions.index, regions['freq'], k=1)[0]
   return region
 
+# select area
 def select_area(demographics, region):
   """
   Selects an area based on provided demographics and region
@@ -40,6 +43,7 @@ def select_area(demographics, region):
   area = random.choices(areas.index, areas['freq'], k=1)[0]
   return area
 
+# select ethnicity
 def select_ethnicity(demographics, region, area):
   """
   Selects an ethnicity based on provided demographics, region and area
@@ -59,7 +63,7 @@ def select_ethnicity(demographics, region, area):
   ethnicity = random.choices(list(ethnicities['Ethnicity']), list(ethnicities['freq']), k=1)[0]
   return ethnicity
 
-## select gender
+# select gender
 def select_gender(demographics, region, area, ethnicity):
   """
   Selects gender based on provided demographics, region, area and ethnicity
@@ -81,6 +85,7 @@ def select_gender(demographics, region, area, ethnicity):
   gender = random.choices(list(gender_t.index), gender_t.values, k=1)[0]
   return gender
 
+# select age
 def select_age(demographics, region, area, ethnicity):
   """
   Selects age based on provided demographics, region, area and ethnicity
@@ -116,7 +121,6 @@ def select_age(demographics, region, area, ethnicity):
   dob = generate_DOB(date_range[0], date_range[1])
   return dob, age_range
 
-# helper function
 # calculate the start date and end date from the date range
 def get_date_range(age_low, age_high):
   """
@@ -131,7 +135,6 @@ def get_date_range(age_low, age_high):
   start_date = datetime.date(datetime.now() - relativedelta(years=int(age_high)))
   return (start_date, end_date)
 
-# helper function
 # generate a random DOB based on start and end dates
 def generate_DOB(start_date, end_date):
   """
@@ -147,7 +150,19 @@ def generate_DOB(start_date, end_date):
   random_second = randrange(int_delta)
   return start_date + timedelta(seconds=random_second)
 
-# helper function
+# a helper function for claculating age
+def calculate_age(dob):
+  """
+  Calculate current age based on dob
+  Parameters:
+    dob: date of birht
+  Returns:
+    age: an integer current age
+  """
+  #dob = datetime.strptime(str(dob), "%d/%m/%Y")
+  today = date.today()
+  return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+
 # match deprivation score to the generated area
 def match_deprivation(deprivation, area):
   """
