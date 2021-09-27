@@ -12,8 +12,8 @@ population_size = 5
 
 ## Input
 Input for the application consist of a number of files referring to the country/area.<br><br>
-In order to add a new area, two new sections needs to be added to file `config.ini`, for example:<br>
-New Zealand requires section [NZ] with locations for demographics file and deprivation file as well as [NZ_modules] section with location of lifestyle and disease modules
+In order to add a new area, two new sections need to be added to file `config.ini`, for example:<br>
+New Zealand requires section [NZ] with locations for demographics and deprivation input files as well as [NZ_modules] section with location of lifestyle and disease modules input files
 ```
 [NZ]
 # input filed for NZ
@@ -40,8 +40,10 @@ python3 -m pip install --editable .
 Move to the folder and run
 ```
 cd synthetic-health-population
+source env/bin/activate
 generate_patients
 ```
+### Possible options for running
 Specify number of patients
 ```
 generate_patients -p 2
