@@ -1,5 +1,32 @@
 # synthetic-health-population
 An algorithm to use publicly available health statistics in order to generate a synthetic health population of an area.
+## Settings
+File `config.ini` contains setting for the application. Currently, a country to be used can be specified as well as population size to be produced
+```
+[generate]
+# default country
+country = NZ
+# default size of population to produce
+population_size = 5
+```
+
+## Input
+Input for the application consist of a number of files referring to the country/area.<br><br>
+In order to add a new area, two new sections needs to be added to file `config.ini`, for example:<br>
+New Zealand requires section [NZ] with locations for demographics file and deprivation file as well as [NZ_modules] section with location of lifestyle and disease modules
+```
+[NZ]
+# input filed for NZ
+demographics = input/nz/demographic/nz_demographics.csv
+deprivation = input/nz/demographic/nz_deprivation.csv
+
+[NZ_modules]
+# lifestyle and disease moduled for NZ
+smoking = input/nz/lifestyle/smoking.csv
+physical_activity = input/nz/lifestyle/physical_activity.csv
+```
+## Output
+The applications saves the results to two csv files named `patients.csv` and `timelines.csv` located in the `outputs` folder.
 
 ## Installation
 ```
@@ -27,5 +54,3 @@ print information about each patient
 ```
 generate_patients --print
 ```
-## Output
-The applications saves the results to two csv files named `patients.csv` and `timelines.csv` located in the `outputs` folder.
