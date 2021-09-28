@@ -44,7 +44,7 @@ source env/bin/activate
 generate_patients
 ```
 ### Possible options for running
-Specify number of patients
+#### Specify number of patients
 ```
 generate_patients -p 2
 ```
@@ -52,7 +52,11 @@ or
 ```
 generate_patients --population 2
 ```
-print information about each patient
+#### print detailed information about probabilities and transitions for each state
+```
+generate_patients --debug
+```
+#### print information about each patient
 ```
 generate_patients --print
 ```
