@@ -49,7 +49,16 @@ for module in modules:
     header_timeline += ',' + module
 create_csv('output/timelines.csv', header_timeline)
 
-def generate_patients(population, display):
+def generate_patients(population, display, debug):
+    """
+    Patient and timeline generator
+    Parameters:
+        population: an integer value for the number of patients to generate
+        display: a boolean value, whether to display patient information while generating
+        debug: boolean, whether to show debugging information
+    Returns:
+        None
+    """
     # generate the specified number of patients
     for _ in tqdm(range(1, int(population)+1)):
 
@@ -78,12 +87,17 @@ def generate_patients(population, display):
                 patient.deprivation_level]
         append_to_csv('output/patients.csv', data)
 
+        if debug:
+            print(f"===================================================================================================")
+            print(f"Current patient: {patient.id}, age: {patient.age}, ethnicity: {patient.ethnicity}, gender: {patient.gender}, deprivation: {patient.deprivation_level}")
+            print(f"===================================================================================================")
+
         ## Set up initial probabilities for all modules
         # create a dictionary of modules
         # to store transition probabilities
         module_dict = {}
         for module, data in modules.items():
-            states, t_probabilities, m_probabilities = set_initial_prob(module, data, patient.__dict__)
+            states, t_probabilities, m_probabilities = set_initial_prob(module, data, patient.__dict__, debug)
             # add the states, transition probabilities and transition multiplications to the module dictionary
             module_dict[module] = (states, t_probabilities, m_probabilities, '')
 
@@ -95,6 +109,7 @@ def generate_patients(population, display):
         # set up previous timeline as an empty dictionary, to be used for the first record
         previous_timeline = {}
 
+
         # iterate through ages until max age range
         for age in zip(range(index), ages):
 
@@ -104,7 +119,7 @@ def generate_patients(population, display):
             # iterate through each module and run it
             for module, data in modules.items():
                 # run the module and extract result
-                new_state, new_module_dict = run_module(module, data, age[1], patient.__dict__, current_timeline, previous_timeline, module_dict)
+                new_state, new_module_dict = run_module(module, data, age[1], patient.__dict__, current_timeline, previous_timeline, module_dict, debug)
                 # result should be a selected status for that age range and module
                 current_timeline[module] = new_state
                 # update the module_dict
