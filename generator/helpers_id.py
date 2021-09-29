@@ -43,6 +43,6 @@ def generate_nhi_id():
       if check_digit == 10:
         check_digit = 0
       valid = True
-      id = alpha + numeric + str(check_digit)
+      id = ''.join([alpha, numeric, str(check_digit)])
       return id
 
