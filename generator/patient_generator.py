@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-import pandas as pd
-import time
+from pandas import read_csv
+from time import time
 from tqdm import tqdm
 from configparser import ConfigParser
 
@@ -14,7 +14,7 @@ from .helpers_timelines import  set_initial_prob, run_module
 # import patient class
 from .patient_class import Patient
 
-start_time = time.time()
+start_time = time()
 
 # read the configuration file
 parser = ConfigParser()
@@ -30,11 +30,11 @@ deprivation_loc = parser.get(country, 'deprivation')
 # iterate over modules for that location and create a dictionary
 modules = {}
 for module, data in parser.items(country+'_modules'):
-    modules[module] =  pd.read_csv(data)
+    modules[module] =  read_csv(data)
 
 # import demographics and deprivation
-demographics = pd.read_csv(demographics_loc)
-deprivation = pd.read_csv(deprivation_loc)
+demographics = read_csv(demographics_loc)
+deprivation = read_csv(deprivation_loc)
 
 # set a list of possible age ranges
 ages = ['0_4',	'5_9',	'10_14', '15_19',	'20_24',	'25_29', '30_34',	'35_39', \
@@ -141,4 +141,4 @@ def generate_patients(population, display, debug):
         if display:
             print(f"Patient: {patient.id}, {patient.region}, {patient.area}, {patient.gender}, {patient.ethnicity}, {patient.age_range}, {patient.dob}")
 
-    print(f"Executed in {(time.time() - start_time)/60} minutes.")
+    print(f"Executed in {(time() - start_time)/60} minutes.")

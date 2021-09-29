@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import random
+from random import randint, choice
 
 # a helper function that generates a random id number
 def generate_random_id():
@@ -10,7 +10,7 @@ def generate_random_id():
   Returns:
     id: a randomly generated id number
   """
-  return ''.join(str(random.randint(0,9)) for _ in range(7))
+  return ''.join(str(randint(0,9)) for _ in range(7))
 
 # a helper function that generates a New Zealand NHI number
 def generate_nhi_id():
@@ -28,9 +28,9 @@ def generate_nhi_id():
   # iterate until a valid id is generated
   while not(valid):
     # generate 3 random letters
-    alpha = ''.join(random.choice(letters) for _ in range(3))
+    alpha = ''.join(choice(letters) for _ in range(3))
     # generate 3 random numbers
-    numeric = ''.join(str(random.randint(0,9)) for _ in range(3))
+    numeric = ''.join(str(randint(0,9)) for _ in range(3))
     # calculate the sum of letters
     alpha_values = [letters.index(char) + 1 for char in alpha]
     alpha_sum = sum([a * b for a, b in zip(alpha_values, [7, 6, 5])])

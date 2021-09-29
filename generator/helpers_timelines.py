@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import random
+from random import choices
 
 # a helper function for setting initial probabilities for each module
 def set_initial_prob(module, data, patient, debug):
@@ -71,7 +71,7 @@ def mcmc(states, probabilities, initial_state):
   # based on given probabilities, choose the next state
   for i in range(len(states)):
       if initial_state == states[i]:
-        change = random.choices(transitions[i], probabilities[i], k=1)[0]
+        change = choices(transitions[i], probabilities[i], k=1)[0]
         for j in range(len(states)):
           if change == transitions[i][j]:
             next_state = states[i]
@@ -237,7 +237,7 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
         print(f"Amended probabilities: {probabilities}")
 
     # set the state status
-    state_status = random.choices(states, probabilities, k=1)[0]
+    state_status = choices(states, probabilities, k=1)[0]
     if debug:
       print(f"Selected state: {state_status}")
 

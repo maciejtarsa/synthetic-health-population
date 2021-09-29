@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-import random
+from random import choices, randrange
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from random import randrange
 from datetime import timedelta
 from datetime import datetime, date
 
@@ -20,7 +19,7 @@ def select_region(demographics):
   # calculate frequencies
   regions['freq'] = regions['Population']/regions['Population'].sum()
   # select region
-  region = random.choices(regions.index, regions['freq'], k=1)[0]
+  region = choices(regions.index, regions['freq'], k=1)[0]
   return region
 
 # select area
@@ -40,7 +39,7 @@ def select_area(demographics, region):
   # calculate freqiencies
   areas['freq'] = areas['Population']/areas['Population'].sum()
   # select an area
-  area = random.choices(areas.index, areas['freq'], k=1)[0]
+  area = choices(areas.index, areas['freq'], k=1)[0]
   return area
 
 # select ethnicity
@@ -60,7 +59,7 @@ def select_ethnicity(demographics, region, area):
   # calculate freqiencies
   ethnicities['freq'] = ethnicities['Population']/ethnicities['Population'].sum()
   # select ethnicity
-  ethnicity = random.choices(list(ethnicities['Ethnicity']), list(ethnicities['freq']), k=1)[0]
+  ethnicity = choices(list(ethnicities['Ethnicity']), list(ethnicities['freq']), k=1)[0]
   return ethnicity
 
 # select gender
@@ -82,7 +81,7 @@ def select_gender(demographics, region, area, ethnicity):
   # transpose the dataframe
   gender_t = gender[['Male','Female']].T
   # select gender
-  gender = random.choices(list(gender_t.index), gender_t.values, k=1)[0]
+  gender = choices(list(gender_t.index), gender_t.values, k=1)[0]
   return gender
 
 # select age
@@ -108,7 +107,7 @@ def select_age(demographics, region, area, ethnicity):
   # transpose
   age_t = age.T
   # select a random age range
-  age_range = random.choices(list(age_t.index), age_t.values, k=1)[0]
+  age_range = choices(list(age_t.index), age_t.values, k=1)[0]
   # extract the low and high values
   age_low, age_high = age_range.split('_')
   # check if that the age range is 85 and above

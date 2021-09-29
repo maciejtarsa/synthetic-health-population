@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import csv
+from csv import writer
 
 # a helper function creates a new empty csv file
 def create_csv(location, headers):
@@ -26,5 +26,5 @@ def append_to_csv(location, data):
     None
   """
   with open(location, 'a') as f:
-        writer = csv.writer(f)
+        writer = writer(f)
         writer.writerow(data)
