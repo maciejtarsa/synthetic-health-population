@@ -29,7 +29,7 @@ deprivation_loc = parser.get(country, 'deprivation')
 
 # iterate over modules for that location and create a dictionary
 modules = {}
-for module, data in parser.items(country+'_modules'):
+for module, data in parser.items(''.join([country, '_modules'])):
     modules[module] =  read_csv(data)
 
 # import demographics and deprivation
