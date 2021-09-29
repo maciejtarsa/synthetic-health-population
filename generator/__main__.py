@@ -15,7 +15,7 @@ population_size = int(parser.get('generate', 'population_size'))
 @click.option('--print', is_flag=True, help="Print details while populating")
 @click.option('--population', '-p', default=population_size, \
                 help='How many patients to produce')
-def main(population, print=False, debug=Flase):
+def main(population, print=False, debug=False):
     """The main routine."""
     generate_patients(population, print, debug)
 
