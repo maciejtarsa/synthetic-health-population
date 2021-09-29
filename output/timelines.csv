@@ -1,57 +1,51 @@
 id,age_range,smoking,physical_activity
-EZV9411,0_4,Non-smoker,Active
-EZV9411,5_9,Non-smoker,Active
-EZV9411,10_14,Non-smoker,Insufficient
-EZV9411,15_19,Non-smoker,Active
-EZV9411,20_24,Non-smoker,Active
-EZV9411,25_29,Non-smoker,Active
-EZV9411,30_34,Non-smoker,Active
-EZV9411,35_39,Regular smoker,Active
-EZV9411,40_44,Ex-smoker,Active
-EZV9411,45_49,Ex-smoker,Active
-EZV9411,50_54,Ex-smoker,Active
-EZV9411,55_59,Ex-smoker,Active
-EZV9411,60_64,Regular smoker,Active
-EZV9411,65_69,Ex-smoker,Active
-SSM2563,0_4,Non-smoker,Active
-SSM2563,5_9,Non-smoker,Insufficient
-SSM2563,10_14,Non-smoker,Insufficient
-SSM2563,15_19,Non-smoker,Active
-SSM2563,20_24,Non-smoker,Active
-SSM2563,25_29,Non-smoker,Active
-SSM2563,30_34,Non-smoker,Active
-SSM2563,35_39,Non-smoker,Active
-SSM2563,40_44,Non-smoker,Active
-SSM2563,45_49,Non-smoker,Active
-SSM2563,50_54,Non-smoker,Active
-SSM2563,55_59,Non-smoker,Active
-SSM2563,60_64,Non-smoker,Active
-SSM2563,65_69,Non-smoker,Active
-TEP6488,0_4,Non-smoker,Active
-TEP6488,5_9,Non-smoker,Active
-TEP6488,10_14,Non-smoker,Active
-TEP6488,15_19,Non-smoker,Insufficient
-TEP6488,20_24,Non-smoker,Insufficient
-TEP6488,25_29,Non-smoker,Insufficient
-TEP6488,30_34,Non-smoker,Insufficient
-TEP6488,35_39,Non-smoker,Active
-TEP6488,40_44,Non-smoker,Active
-TEP6488,45_49,Non-smoker,Active
-TEP6488,50_54,Non-smoker,Active
-TEP6488,55_59,Non-smoker,Active
-TEP6488,60_64,Non-smoker,Active
-XYV3968,0_4,Non-smoker,Active
-SCN2506,0_4,Non-smoker,Active
-SCN2506,5_9,Non-smoker,Active
-SCN2506,10_14,Non-smoker,Active
-SCN2506,15_19,Non-smoker,Active
-SCN2506,20_24,Non-smoker,Active
-SCN2506,25_29,Non-smoker,Active
-SCN2506,30_34,Non-smoker,Active
-SCN2506,35_39,Non-smoker,Active
-SCN2506,40_44,Non-smoker,Active
-SCN2506,45_49,Non-smoker,Active
-SCN2506,50_54,Non-smoker,Active
-SCN2506,55_59,Regular smoker,Active
-SCN2506,60_64,Ex-smoker,Active
-SCN2506,65_69,Ex-smoker,Active
+WYX0966,0_4,Non-smoker,Active
+WYX0966,5_9,Non-smoker,Insufficient
+WYX0966,10_14,Non-smoker,Insufficient
+WYX0966,15_19,Non-smoker,Active
+WYX0966,20_24,Non-smoker,Active
+WYX0966,25_29,Non-smoker,Active
+WYX0966,30_34,Regular smoker,Insufficient
+WYX0966,35_39,Regular smoker,Insufficient
+WYX0966,40_44,Regular smoker,Insufficient
+WYX0966,45_49,Ex-smoker,Insufficient
+WYX0966,50_54,Ex-smoker,Insufficient
+WYX0966,55_59,Ex-smoker,Insufficient
+WYX0966,60_64,Ex-smoker,Insufficient
+WYX0966,65_69,Ex-smoker,Insufficient
+WYX0966,70_74,Ex-smoker,Insufficient
+WYX0966,75_79,Ex-smoker,Insufficient
+WYX0966,80_84,Ex-smoker,Insufficient
+WYX0966,85_,Ex-smoker,Insufficient
+NFV6835,0_4,Non-smoker,Active
+NFV6835,5_9,Non-smoker,Insufficient
+NFV6835,10_14,Non-smoker,Active
+NFV6835,15_19,Non-smoker,No-activity
+NFV6835,20_24,Non-smoker,No-activity
+JRH3343,0_4,Non-smoker,Active
+JRH3343,5_9,Non-smoker,Insufficient
+JRH3343,10_14,Non-smoker,Insufficient
+JRH3343,15_19,Non-smoker,Active
+JRH3343,20_24,Regular smoker,Insufficient
+JRH3343,25_29,Regular smoker,Insufficient
+JRH3343,30_34,Regular smoker,Insufficient
+JRH3343,35_39,Ex-smoker,Insufficient
+JRH3343,40_44,Ex-smoker,Insufficient
+JRH3343,45_49,Ex-smoker,Insufficient
+FDN3493,0_4,Non-smoker,Active
+FDN3493,5_9,Non-smoker,Insufficient
+FDN3493,10_14,Non-smoker,Active
+FDN3493,15_19,Non-smoker,Active
+FDN3493,20_24,Regular smoker,Active
+FDN3493,25_29,Ex-smoker,Active
+FDN3493,30_34,Regular smoker,Active
+FDN3493,35_39,Ex-smoker,Active
+JNY4038,0_4,Non-smoker,Active
+JNY4038,5_9,Non-smoker,Active
+JNY4038,10_14,Non-smoker,Active
+JNY4038,15_19,Non-smoker,Active
+JNY4038,20_24,Non-smoker,Active
+JNY4038,25_29,Non-smoker,Active
+JNY4038,30_34,Non-smoker,Active
+JNY4038,35_39,Non-smoker,Insufficient
+JNY4038,40_44,Regular smoker,Insufficient
