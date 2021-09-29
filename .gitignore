@@ -1,5 +1,7 @@
 # output files
 output/
+.patients.csv
+.timelines.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
