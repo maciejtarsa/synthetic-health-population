@@ -43,7 +43,8 @@ def set_initial_prob(module, data, patient, debug):
       multiplications, changed = amend_prob_char(row, patient, debug)
       if changed:
         t_probabilities = amend_prob(t_probabilities, [multiplications,multiplications,multiplications])
-        print(f"Amended probabilities: {t_probabilities}")
+        if debug:
+          print(f"Amended probabilities: {t_probabilities}")
 
     return states, t_probabilities, m_probabilities
 
@@ -234,7 +235,8 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
       multiplications, changed = amend_prob_char(row, patient, debug)
       if changed:
         probabilities = amend_prob([probabilities], [multiplications])[0]
-        print(f"Amended probabilities: {probabilities}")
+        if debug:
+          print(f"Amended probabilities: {probabilities}")
 
     # set the state status
     state_status = choices(states, probabilities, k=1)[0]
@@ -251,7 +253,8 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
       multiplications, changed = amend_prob_char(row, current_timeline, debug, previous_timeline)
       if changed:
         t_probabilities = amend_prob(t_probabilities, [multiplications,multiplications,multiplications])
-        print(f"Amended transition probabilities: {t_probabilities}")
+        if debug:
+          print(f"Amended transition probabilities: {t_probabilities}")
 
     # choose the next state
     state_status = mcmc(states, t_probabilities, module_dict[module][3])
