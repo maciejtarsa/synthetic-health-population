@@ -1,20 +1,20 @@
 ﻿type,variable,value,Active,Insufficient,No-activity,Comment
 initial,age_range,0_4,1,0,0,All under 5 counted as active
 initial,age_range,5_9,0.436,0.564,0,43.6% of 5-15s are active
-initial,age_range,15_19,0.6,0.3,0.1,
+initial,age_range,15_19,0.55,0.35,0.1,
 initial_tran,prob,Active,0.9,0.1,0,"A person is most likely to stay active, but some chance of moving to insufficient"
-initial_tran,prob,Insufficient,0.1,0.85,0.05,A person has some chance of become more or less active
-initial_tran,prob,No-activity,0,0.3,0.7,A person has some chance of becoming more active
-transition,change,Active,1.1,1,1,Slight variance
-transition,change,Insufficient,1,1.1,1,Slight variance
-transition,change,No-activity,1,1,1.1,Slight variance
+initial_tran,prob,Insufficient,0.15,0.7,0.15,A person has some chance of become more or less active
+initial_tran,prob,No-activity,0,0.25,0.75,A person has some chance of becoming more active
+transition,change,Active,1.2,1,1,Slight variance
+transition,change,Insufficient,1,1.2,1,Slight variance
+transition,change,No-activity,1,1,1.2,Slight variance
 characteristics_static,gender,Female,1.16,0.9,0.76,
-characteristics_static,ethnicity,Maori,0.97,0.93,1.3,
-characteristics_static,ethnicity,Pacific Peoples,0.86,1.01,1.55,
-characteristics_static,ethnicity,Asian,0.78,1.13,1.57,
-characteristics_dynamic,age_range,65_69,0.8,1.2,1.5,After 65 more likely to be less active
-characteristics_dynamic,age_range,75_79,0.7,1.3,2.6,"After 75, the chance of reduced activity raise even more"
-characteristics_static,deprivation_score,<4,0.8,0.96,2.53,Adjustments based on deprivation
-characteristics_static,deprivation_score,>6,1.2,1.04,0.23,Adjustments based on deprivation
+characteristics_static,ethnicity,Maori,1,1.1,1.1,
+characteristics_static,ethnicity,Pacific Peoples,1,1.1,1.2,
+characteristics_static,ethnicity,Asian,0.95,1.2,1.3,
+characteristics_dynamic,age_range,65_69,1,1,1.1,After 65 more likely to be less active
+characteristics_dynamic,age_range,75_79,0.8,1.7,1.8,"After 75, the chance of reduced activity raise even more"
+characteristics_static,deprivation_score,>6,0.8,0.96,2.53,Adjustments based on deprivation
+characteristics_static,deprivation_score,<4,1.2,1.04,0.23,Adjustments based on deprivation
 characteristics_dynamic,smoking,Regular smoker,0.9,1.2,1.2,Descrease probability of being active if patients is a smoker
 characteristics_dynamic,smoking,Ex-smoker,1.1,1,1,Slightly increase prob of physical activity if a patient quit smoking
