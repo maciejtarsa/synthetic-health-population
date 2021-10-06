@@ -18,3 +18,4 @@ characteristics_static,deprivation_score,>6,0.8,0.96,2.53,Adjustments based on d
 characteristics_static,deprivation_score,<4,1.2,1.04,0.23,Adjustments based on deprivation
 characteristics_dynamic,smoking,Regular smoker,0.9,1.2,1.2,Descrease probability of being active if patients is a smoker
 characteristics_dynamic,smoking,Ex-smoker,1.1,1,1,Slightly increase prob of physical activity if a patient quit smoking
+characteristics_dynamic,body_size,Healthy weight,1.5,0.8,0.5,Healthy body = more likely to be active
