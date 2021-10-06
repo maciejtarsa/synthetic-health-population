@@ -94,6 +94,7 @@ def amend_prob(probabilities, amendments):
   """
   for i in range(len(probabilities)):
     probabilities[i] = [a*b for a,b in zip(probabilities[i], amendments[i])]
+    # normalise
     probabilities[i] = [float(j)/sum(probabilities[i]) for j in probabilities[i]]
   return probabilities
 
