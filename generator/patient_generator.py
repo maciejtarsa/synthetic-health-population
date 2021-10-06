@@ -113,8 +113,13 @@ def generate_patients(population, display, debug):
         # iterate through ages until max age range
         for age in zip(range(index), ages):
 
+            if debug:
+                print()
+                print(f"=====================")
+                print(f"Age range: {age_range}")
+
             # create an empty dictionary to use as module results
-            current_timeline = {}
+            current_timeline = {'age_range': age[1]}
 
             # iterate through each module and run it
             for module, data in modules.items():
@@ -133,10 +138,14 @@ def generate_patients(population, display, debug):
             timelines_dict[age[1]] = current_timeline
 
             # save to timelines' file
-            data = [patient.id, age[1]] + list(current_timeline.values())
+            data = [patient.id] + list(current_timeline.values())
             append_to_csv('output/timelines.csv', data)
         # add the timelines to the patient object
         patient.timelines = timelines_dict
+
+        if debug:
+            print(f"===================================================================================================")
+            print(f"Next patient")
 
         if display:
             print(f"Patient: {patient.id}, {patient.region}, {patient.area}, {patient.gender}, {patient.ethnicity}, {patient.age_range}, {patient.dob}")

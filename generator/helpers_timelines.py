@@ -42,7 +42,7 @@ def set_initial_prob(module, data, patient, debug):
     for index, row in characteristics_static.iterrows():
       multiplications, changed = amend_prob_char(row, patient, debug)
       if changed:
-        t_probabilities = amend_prob(t_probabilities, [multiplications,multiplications,multiplications])
+        t_probabilities = amend_prob(t_probabilities, [multiplications]*len(states))
         if debug:
           print(f"Amended probabilities: {t_probabilities}")
 
@@ -213,9 +213,6 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
   characteristics_dynamic = data.loc[data['type'] == 'characteristics_dynamic']
 
   if debug:
-    print()
-    print(f"=====================")
-    print(f"Age range: {age_range}")
     print(f"---------------------")
     print(f"Module: {module}")
     print(f"---------------------")
@@ -252,7 +249,7 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
     for index, row in characteristics_dynamic.iterrows():
       multiplications, changed = amend_prob_char(row, current_timeline, debug, previous_timeline)
       if changed:
-        t_probabilities = amend_prob(t_probabilities, [multiplications,multiplications,multiplications])
+        t_probabilities = amend_prob(t_probabilities, [multiplications]*len(states))
         if debug:
           print(f"Amended transition probabilities: {t_probabilities}")
 
@@ -262,7 +259,7 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
     # ready for the next age range
     t_probabilities = amend_prob(t_probabilities, m_probabilities)
     if debug:
-      print(f"Selected state: {state_status}")
+      print(f"== Selected state: {state_status} ==")
       print(f"Multiplications to apply for the next state: {m_probabilities}")
       print(f"Amended transition probabilities: {t_probabilities}")
 
