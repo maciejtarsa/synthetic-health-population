@@ -1,0 +1,9 @@
+﻿type,variable,value,None,Type 1,Comment
+initial,age_range,0_4,0.999964,0.000036,very low prevalance in 0 to 4
+initial_tran,prob,None,0.999945,0.000055,chance of getting it rises slightly in 5-9 and 10-14
+initial_tran,prob,Type 1,0,1,type 1 is for life
+transition,change,None,1,1,assume no change
+transition,change,Type 1,1,1,assume no change
+characteristics_static,ethnicity,European,1,1.2,European ethnicity has higher prevalance
+characteristics_dynamic,age_range,15_19,1,0.2,reduce chance of being diagnosed dramatically
+characteristics_dynamic,age_range,20_24,1,0.2,reduce them even further
