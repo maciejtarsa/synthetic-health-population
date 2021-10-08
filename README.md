@@ -25,6 +25,7 @@ deprivation = input/nz/demographic/nz_deprivation.csv
 smoking = input/nz/lifestyle/smoking.csv
 physical_activity = input/nz/lifestyle/physical_activity.csv
 body_size = input/nz/lifestyle/body_size.csv
+diabetes_1 = input/nz/lifestyle/diabetes_1.csv
 ```
 ## Output
 The applications saves the results to two csv files named `patients.csv` and `timelines.csv` located in the `outputs` folder.
