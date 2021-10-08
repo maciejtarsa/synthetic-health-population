@@ -29,8 +29,13 @@ deprivation_loc = parser.get(country, 'deprivation')
 
 # iterate over modules for that location and create a dictionary
 modules = {}
+print(f"===================================================================================================")
+print(f"Loading available modules:")
 for module, data in parser.items(''.join([country, '_modules'])):
     modules[module] =  read_csv(data)
+    print(f"{module}")
+print(f"===================================================================================================")
+print()
 
 # import demographics and deprivation
 demographics = read_csv(demographics_loc)
@@ -59,6 +64,9 @@ def generate_patients(population, display, debug):
     Returns:
         None
     """
+
+    print(f"Starting generation of {population:,} patients.")
+
     # generate the specified number of patients
     for _ in tqdm(range(1, int(population)+1)):
 
@@ -116,7 +124,7 @@ def generate_patients(population, display, debug):
             if debug:
                 print()
                 print(f"=====================")
-                print(f"Age range: {age_range}")
+                print(f"Age range: {age}")
 
             # create an empty dictionary to use as module results
             current_timeline = {'age_range': age[1]}
