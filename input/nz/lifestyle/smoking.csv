@@ -1,19 +1,19 @@
 ﻿type,variable,value,Regular smoker,Ex-smoker,Non-smoker,Comment
-initial,age_range,0_4,0,0,1,All under 15 are non-smokers
-initial,age_range,5_9,0,0,1,All under 15 are non-smokers
-initial,age_range,10_14,0,0,1,All under 15 are non-smokers
-initial,age_range,15_19,0.03,0,0.97,First age range cannot be ex-smoker
-initial_tran,prob,Regular Smoker,0.6,0.4,0,
-initial_tran,prob,Ex-smoker,0.25,0.75,0,
-initial_tran,prob,Non-smoker,0.09,0,0.91,
-transition,change,Regular Smoker,0.9,1.1,1,A smoker is more likely to stay a smoker as they get older
-transition,change,Ex-smoker,0.9,1,1,An ex-smoker is more likely to remain an ex smoker as they get older
-transition,change,Non-smoker,0.8,1,1,A non smoker is more likely to remain a non-smoker as they get older
-characteristics_static,age,>30,1.3,0.92,1.1,"if they are older, they are more likely to have smoked"
-characteristics_static,ethnicity,Maori,3,1.1,0.8,Maori have higher smoking
-characteristics_static,ethnicity,Pacific Peoples,1.9,0.35,1.1,As do Pacific peoples
-characteristics_static,ethnicity,Asian,0.55,0.5,1,Asian have lower smoking rates
-characteristics_dynamic,age_range,20_24,1.25,1,0.8,At 20_24 much more young people are likely to be smokers
-characteristics_static,gender,Female,1.25,1.25,1,More females are smokers
-characteristics_static,deprivation_score,<4,4.34,1.15,1,Deprivation score based adjustments
-characteristics_static,deprivation_score,>6,0.35,0.85,1,Deprivation score based adjustments
+PriorProbabilities,age_range,0_4,0,0,1,All under 15 are non-smokers
+PriorProbabilities,age_range,5_9,0,0,1,All under 15 are non-smokers
+PriorProbabilities,age_range,10_14,0,0,1,All under 15 are non-smokers
+PriorProbabilities,age_range,15_19,0.03,0,0.97,First age range cannot be ex-smoker
+PriorTransitionProbabilities,prob,Regular Smoker,0.6,0.4,0,
+PriorTransitionProbabilities,prob,Ex-smoker,0.25,0.75,0,
+PriorTransitionProbabilities,prob,Non-smoker,0.09,0,0.91,
+MultiplicationValues,mult,Regular Smoker,0.9,1.1,1,A smoker is more likely to stay a smoker as they get older
+MultiplicationValues,mult,Ex-smoker,0.9,1,1,An ex-smoker is more likely to remain an ex smoker as they get older
+MultiplicationValues,mult,Non-smoker,0.8,1,1,A non smoker is more likely to remain a non-smoker as they get older
+StaticCharacteristics,age,>30,1.3,0.92,1.1,"if they are older, they are more likely to have smoked"
+StaticCharacteristics,ethnicity,Maori,3,1.1,0.8,Maori have higher smoking
+StaticCharacteristics,ethnicity,Pacific Peoples,1.9,0.35,1.1,As do Pacific peoples
+StaticCharacteristics,ethnicity,Asian,0.55,0.5,1,Asian have lower smoking rates
+DynamicCharacteristics,age_range,20_24,1.25,1,0.8,At 20_24 much more young people are likely to be smokers
+StaticCharacteristics,gender,Female,1.25,1.25,1,More females are smokers
+StaticCharacteristics,deprivation_score,<4,4.34,1.15,1,Deprivation score based adjustments
+StaticCharacteristics,deprivation_score,>6,0.35,0.85,1,Deprivation score based adjustments

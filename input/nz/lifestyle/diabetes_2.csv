@@ -1,23 +1,23 @@
 ﻿type,variable,value,None,Gestational,Prediabetes,Type 2,Comment
-initial,age_range,0_4,1,0,0,0,assume no diabetes in under 15s
-initial,age_range,5_9,1,0,0,0,assume no diabetes in under 15s
-initial,age_range,10_14,1,0,0,0,assume no diabetes in under 15s
-initial,age_range,15_19,0.92945,0.00005,0.075,0.0005,
-initial_tran,prob,None,0.98495,0.00005,0.015,0,
-initial_tran,prob,Gestational,0.8,0,0.1,0.1,
-initial_tran,prob,Prediabetes,0.15,0,0.7,0.15,
-initial_tran,prob,Type 2,0.1,0,0,0.9,
-transition,change,None,1,1,1,1,
-transition,change,Gestational,1,1,1,1,
-transition,change,Prediabetes,1,1,1,1,
-transition,change,Type 2,1,1,1,1,
-characteristics_static,gender,Male,1,0,1,1.43,"Gestational only present in Females, Males generally higher"
-characteristics_static,ethnicity,Pacific Peoples,1,1,2.5,1.5,much higher prevalance among Pacific Peoples
-characteristics_static,ethnicity,Maori,1,1,2.5,1.5,much higher prevalance among Maori peoples
-characteristics_dynamic,body_size,obese,1,1,1.65,5.68,obese people far more likely to have diabetes and hence prediabetes
-characteristics_dynamic,body_size,overweight,1,1,1.37,2.36,overweight people more likely to have diabetes too
-characteristics_dynamic,age_range,25_29,0.8,1,2.2,1,
-characteristics_dynamic,age_range,35_39,0.9,1,2,1.2,risk rises after 35
-characteristics_dynamic,age_range,45_49,1,1,1.1,1,
-characteristics_dynamic,age_range,55_59,1,1,1.2,2,risk rises again after 55
-characteristics_dynamic,age_range,75_79,1,1,1.2,2,
+PriorProbabilities,age_range,0_4,1,0,0,0,assume no diabetes in under 15s
+PriorProbabilities,age_range,5_9,1,0,0,0,assume no diabetes in under 15s
+PriorProbabilities,age_range,10_14,1,0,0,0,assume no diabetes in under 15s
+PriorProbabilities,age_range,15_19,0.92945,0.00005,0.075,0.0005,
+PriorTransitionProbabilities,prob,None,0.98495,0.00005,0.015,0,
+PriorTransitionProbabilities,prob,Gestational,0.8,0,0.1,0.1,
+PriorTransitionProbabilities,prob,Prediabetes,0.15,0,0.7,0.15,
+PriorTransitionProbabilities,prob,Type 2,0.1,0,0,0.9,
+MultiplicationValues,mult,None,1,1,1,1,
+MultiplicationValues,mult,Gestational,1,1,1,1,
+MultiplicationValues,mult,Prediabetes,1,1,1,1,
+MultiplicationValues,mult,Type 2,1,1,1,1,
+StaticCharacteristics,gender,Male,1,0,1,1.43,"Gestational only present in Females, Males generally higher"
+StaticCharacteristics,ethnicity,Pacific Peoples,1,1,2.5,1.5,much higher prevalance among Pacific Peoples
+StaticCharacteristics,ethnicity,Maori,1,1,2.5,1.5,much higher prevalance among Maori peoples
+DynamicCharacteristics,body_size,obese,1,1,1.65,5.68,obese people far more likely to have diabetes and hence prediabetes
+DynamicCharacteristics,body_size,overweight,1,1,1.37,2.36,overweight people more likely to have diabetes too
+DynamicCharacteristics,age_range,25_29,0.8,1,2.2,1,
+DynamicCharacteristics,age_range,35_39,0.9,1,2,1.2,risk rises after 35
+DynamicCharacteristics,age_range,45_49,1,1,1.1,1,
+DynamicCharacteristics,age_range,55_59,1,1,1.2,2,risk rises again after 55
+DynamicCharacteristics,age_range,75_79,1,1,1.2,2,
