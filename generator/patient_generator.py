@@ -100,14 +100,14 @@ def generate_patients(population, display, debug):
             print(f"Current patient: {patient.id}, age: {patient.age}, ethnicity: {patient.ethnicity}, gender: {patient.gender}, deprivation: {patient.deprivation_level}")
             print(f"===================================================================================================")
 
-        ## Set up initial probabilities for all modules
+        ## Set up prior initial probabilities for all modules
         # create a dictionary of modules
-        # to store transition probabilities
+        # to store prior state transition probabilities
         module_dict = {}
         for module, data in modules.items():
-            states, t_probabilities, m_probabilities = set_initial_prob(module, data, patient.__dict__, debug)
-            # add the states, transition probabilities and transition multiplications to the module dictionary
-            module_dict[module] = (states, t_probabilities, m_probabilities, '')
+            states, prior_transition_prob, multiply_transitions = set_initial_prob(module, data, patient.__dict__, debug)
+            # add the states, prior state transition probabilities and prior state multiplications to the module dictionary
+            module_dict[module] = (states, prior_transition_prob, multiply_transitions, '')
 
         ## Timeline generation
         # get the index of the current age range from the list plus 1
@@ -124,7 +124,7 @@ def generate_patients(population, display, debug):
             if debug:
                 print()
                 print(f"=====================")
-                print(f"Age range: {age}")
+                print(f"Age range: {age[1]}")
 
             # create an empty dictionary to use as module results
             current_timeline = {'age_range': age[1]}

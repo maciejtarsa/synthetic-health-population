@@ -13,40 +13,40 @@ def set_initial_prob(module, data, patient, debug):
         debug: boolean, whether to show debugging information
     Returns:
         states: a list of possible states
-        t_probabilities: transition probabilities
-        m_probabilities: multiplication values for probabilities
+        posterior_transition_prob: posterior state transition probabilities
+        multiply_transitions: state transition multiplication
     """
     # set states
     states = data.iloc[:,3:-1].columns.tolist()
-    # extract the initial transitions
-    initial_tran = data.loc[data['type'] == 'initial_tran']
-    # and multiplications
-    transition = data.loc[data['type'] == 'transition']
+    # extract the prior transition probabilities
+    prior_transition_prob = data.loc[data['type'] == 'PriorTransitionProbabilities']
+    # and the multiplication values
+    multiplication_values = data.loc[data['type'] == 'MultiplicationValues']
     # and static characteristics
-    characteristics_static = data.loc[data['type'] == 'characteristics_static']
-    # set transition probabilities and multiply values
-    t_probabilities = []
-    m_probabilities = []
+    static_char = data.loc[data['type'] == 'StaticCharacteristics']
+    # set posterior transition probabilities and mutliply transitions
+    posterior_transition_prob = []
+    multiply_transitions = []
     # iterate over a number of states
     for i in range(len(states)):
-      t_probabilities.append(initial_tran.iloc[i,3:-1].values.tolist())
-      m_probabilities.append(transition.iloc[i,3:-1].values.tolist())
+      posterior_transition_prob.append(prior_transition_prob.iloc[i,3:-1].values.tolist())
+      multiply_transitions.append(multiplication_values.iloc[i,3:-1].values.tolist())
 
     if debug:
       print()
-      print(f"The module: {module}")
+      print(f"Module: {module}")
       print(f"Possible states: {states}")
-      print(f"Initial transition probabilities: {t_probabilities}")
+      print(f"Prior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_transition_prob]))
 
-    ## amend initial transitions based on static characteristics
-    for index, row in characteristics_static.iterrows():
+    ## amend prior transition probabilities based on static characteristics
+    for index, row in static_char.iterrows():
       multiplications, changed = amend_prob_char(row, patient, debug)
       if changed:
-        t_probabilities = amend_prob(t_probabilities, [multiplications]*len(states))
+        posterior_transition_prob = amend_prob(posterior_transition_prob, [multiplications]*len(states))
         if debug:
-          print(f"Amended probabilities: {t_probabilities}")
+          print(f"- Posterior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_transition_prob]))
 
-    return states, t_probabilities, m_probabilities
+    return states, posterior_transition_prob, multiply_transitions
 
 # a helper function for selecting next state from a list of states with probabilities
 def mcmc(states, probabilities, initial_state):
@@ -180,8 +180,8 @@ def print_multiplications(variable, value, multiplications, debug):
     None
   """
   if debug:
-    print(f"Relevant variable: {variable}; and it's value: {value}")
-    print(f"Probabilities need multiplying by: {multiplications}")
+    print(f"- Relevant variable: {variable}; value: {value}")
+    print(f"- Prior probabilities need multiplying by: {multiplications}")
 
 # module runner
 def run_module(module, data, age_range, patient, current_timeline, previous_timeline, module_dict, debug):
@@ -198,20 +198,20 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
     debug: boolean, whether to show debugging information
   Returns:
     state: selected state
-    module_dict: an update dictionary of modules
+    module_dict: an updated dictionary of modules
   """
   # get the patients id
   id = patient['id']
 
   # extract states, t and m probabilities from the module dict
   states = module_dict[module][0]
-  t_probabilities = module_dict[module][1]
-  m_probabilities = module_dict[module][2]
+  posterior_transition_prob = module_dict[module][1]
+  multiply_transitions = module_dict[module][2]
 
   # extract the demographic details
-  initial = data.loc[data['type'] == 'initial']
-  characteristics_static = data.loc[data['type'] == 'characteristics_static']
-  characteristics_dynamic = data.loc[data['type'] == 'characteristics_dynamic']
+  prior_probabilities = data.loc[data['type'] == 'PriorProbabilities']
+  char_static = data.loc[data['type'] == 'StaticCharacteristics']
+  char_dynamic = data.loc[data['type'] == 'DynamicCharacteristics']
 
   if debug:
     print(f"---------------------")
@@ -219,53 +219,53 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
     print(f"---------------------")
 
   # if age range is included in the initial set up
-  if age_range in initial['value'].values:
+  if age_range in prior_probabilities['value'].values:
     ## initial set up
     # iterate over each variable and amend as relevant
-    for index, row in initial.iterrows():
+    for index, row in prior_probabilities.iterrows():
       if age_range == row['value']:
         probabilities = row[3:-1].values
         
     if debug:
-      print(f"Initial probabilities: {probabilities}")
+      print(f"- Initial probabilities: {probabilities}")
     ## amend initial setup based on static characteristics
-    for index, row in characteristics_static.iterrows():
+    for index, row in char_static.iterrows():
       multiplications, changed = amend_prob_char(row, patient, debug)
       if changed:
         probabilities = amend_prob([probabilities], [multiplications])[0]
         if debug:
-          print(f"Amended probabilities: {probabilities}")
+          print(f"- Posterior probabilities: "+str([f"{x:.3f}" for x in probabilities]))
 
     # set the state status
     state_status = choices(states, probabilities, k=1)[0]
     if debug:
-      print(f"Selected state: {state_status}")
+      print(f"== Selected state: {state_status} ==")
 
   ## transitions
   # if age_range is not included in the set up
-  if age_range not in initial['value'].values:
+  if age_range not in prior_probabilities['value'].values:
     if debug:
-      print(f"Initial transition probabilities: {t_probabilities}")
+      print(f"- Prior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_transition_prob]))
     # amend transitions based on dynamic characteristics
-    for index, row in characteristics_dynamic.iterrows():
+    for index, row in char_dynamic.iterrows():
       multiplications, changed = amend_prob_char(row, current_timeline, debug, previous_timeline)
       if changed:
-        t_probabilities = amend_prob(t_probabilities, [multiplications]*len(states))
+        posterior_transition_prob = amend_prob(posterior_transition_prob, [multiplications]*len(states))
         if debug:
-          print(f"Amended transition probabilities: {t_probabilities}")
+          print(f"- Posterior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_transition_prob]))
 
     # choose the next state
-    state_status = mcmc(states, t_probabilities, module_dict[module][3])
+    state_status = mcmc(states, posterior_transition_prob, module_dict[module][3])
     # amend the probabilities based on multiplications
     # ready for the next age range
-    t_probabilities = amend_prob(t_probabilities, m_probabilities)
+    posterior_transition_prob = amend_prob(posterior_transition_prob, multiply_transitions)
     if debug:
       print(f"== Selected state: {state_status} ==")
-      print(f"Multiplications to apply for the next state: {m_probabilities}")
-      print(f"Amended transition probabilities: {t_probabilities}")
+      print(f"- Multiplications to apply for the next state: {multiply_transitions}")
+      print(f"- Posterior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_transition_prob]))
 
   # update the module dictionary with new t probabilities
-  module_dict[module] = (states, t_probabilities, m_probabilities, state_status)
+  module_dict[module] = (states, posterior_transition_prob, multiply_transitions, state_status)
 
   # return the status for that timeline and module and the update module_dict
   return state_status, module_dict

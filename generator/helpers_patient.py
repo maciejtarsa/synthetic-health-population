@@ -137,7 +137,7 @@ def get_date_range(age_low, age_high):
 # generate a random DOB based on start and end dates
 def generate_DOB(start_date, end_date):
   """
-  Generated a random date of birth based on start date and end date
+  Generates a random date of birth based on start date and end date
   Parameters:
     start_date: earliest date
     end_date: lastest date
@@ -149,14 +149,14 @@ def generate_DOB(start_date, end_date):
   random_second = randrange(int_delta)
   return start_date + timedelta(seconds=random_second)
 
-# a helper function for claculating age
+ # a helper function for claculating age
 def calculate_age(dob):
   """
   Calculate current age based on dob
   Parameters:
-    dob: date of birht
+      dob: date of birht
   Returns:
-    age: an integer current age
+      age: an integer current age
   """
   #dob = datetime.strptime(str(dob), "%d/%m/%Y")
   today = date.today()
