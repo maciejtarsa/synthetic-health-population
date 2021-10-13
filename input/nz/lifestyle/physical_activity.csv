@@ -19,3 +19,4 @@ StaticCharacteristics,deprivation_score,<4,1.2,1.04,0.23,Adjustments based on de
 DynamicCharacteristics,smoking,Regular smoker,0.9,1.2,1.2,Descrease probability of being active if patients is a smoker
 DynamicCharacteristics,smoking,Ex-smoker,1.1,1,1,Slightly increase prob of physical activity if a patient quit smoking
 DynamicCharacteristics,body_size,Healthy weight,1.5,0.8,0.5,Healthy body = more likely to be active
+DynamicCharacteristics,CVD,Congenital heart defects,0.8,1,1,Heart defects can affect capacity for exercise

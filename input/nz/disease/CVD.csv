@@ -1,0 +1,29 @@
+﻿type,variable,value,None,Congenital heart defects,Coronary heart disease,Atrial fibrillation,Heart attack,Heart failure,Stroke,Comment
+PriorProbabilities,age_range,0_4,0.991,0.009,0,0,0,0,0,9 in 1000 babies born have heart defects
+PriorTransitionProbabilities,prob,None,0.99975,0,0.00005,0.00005,0.00005,0.00005,0.00005,
+PriorTransitionProbabilities,prob,Congenital heart defects,0,0.95,0,0,0,0.05,0,
+PriorTransitionProbabilities,prob,Coronary heart disease,0.1,0,0.7,0,0,0.1,0.1,
+PriorTransitionProbabilities,prob,Atrial fibrillation,0.1,0,0,0.7,0.1,0,0.1,
+PriorTransitionProbabilities,prob,Heart attack,0,0,0.2,0,0.6,0.1,0.1,
+PriorTransitionProbabilities,prob,Heart failure,0,0,0.2,0,0.3,0.45,0.05,
+PriorTransitionProbabilities,prob,Stroke,0,0,0.1,0,0.1,0.05,0.75,
+MultiplicationValues,mult,None,1,1,1,1,1,1,1.01,
+MultiplicationValues,mult,Congenital heart defects,1,1,1,1,1,1,1.01,
+MultiplicationValues,mult,Coronary heart disease,1,1,1,1,1,1,1.01,
+MultiplicationValues,mult,Atrial fibrillation,1,1,1,1,1,1,1.01,
+MultiplicationValues,mult,Heart attack,1,1,1,1,1,1,1.01,
+MultiplicationValues,mult,Heart failure,1,1,1,1,1,1,1.01,
+MultiplicationValues,mult,Stroke,1,1,1,1,1,1,1.01,
+StaticCharacteristics,Gender,Male,1,1,1,1,1,1,1.4,males at higher risk of stroke
+StaticCharacteristics,ethnicity,Pacific Peoples,1,1,2,2,1.2,1.2,1,
+StaticCharacteristics,ethnicity,Maori,1,1,2,2,3,1,0.8,
+StaticCharacteristics,ethnicity,Asian,1,1,1,1,1,0.7,0.3,Much lower revalance among Asian
+DynamicCharacteristics,physical_activity,No-Activity,1,1,1.5,1.5,1.5,1.5,1.5,
+DynamicCharacteristics,body_size,Overweight,1,1,1.2,1.2,1.2,1.2,1.2,
+DynamicCharacteristics,body_size,Obese,1,1,1.4,1.4,1.4,1.4,1.4,
+DynamicCharacteristics,smoking,Regular Smoker,1,1,1,1,1.5,1.5,2,
+DynamicCharacteristics,diabetes_2,Prediabetes,1,1,1.5,1.5,1.5,1.5,1.5,
+DynamicCharacteristics,diabetes_2,Type 2,1,1,2,2,2,2,2,
+DynamicCharacteristics,age_range,40_44,1,1,50,100,35,50,25,
+DynamicCharacteristics,age_range,65_69,1,1,1,2,5,1,1.5,
+DynamicCharacteristics,age_range,75_79,1,1,1,3,1,1,1,Atrial fibrillation is much more common in those aged over 75
