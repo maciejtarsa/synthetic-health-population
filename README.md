@@ -21,12 +21,14 @@ demographics = input/nz/demographic/nz_demographics.csv
 deprivation = input/nz/demographic/nz_deprivation.csv
 
 [NZ_modules]
-# lifestyle and disease moduled for NZ
+# lifestyle modules for NZ
 smoking = input/nz/lifestyle/smoking.csv
 physical_activity = input/nz/lifestyle/physical_activity.csv
 body_size = input/nz/lifestyle/body_size.csv
-diabetes_1 = input/nz/lifestyle/diabetes_1.csv
-diabetes_2 = input/nz/lifestyle/diabetes_2.csv
+# disease modules for NZ
+diabetes_1 = input/nz/disease/diabetes_1.csv
+diabetes_2 = input/nz/disease/diabetes_2.csv
+CVD = input/nz/disease/CVD.csv
 ```
 ## Output
 The applications saves the results to two csv files named `patients.csv` and `timelines.csv` located in the `outputs` folder.
