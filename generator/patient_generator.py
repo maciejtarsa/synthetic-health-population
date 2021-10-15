@@ -96,9 +96,10 @@ def generate_patients(population, display, debug):
         append_to_csv('output/patients.csv', data)
 
         if debug:
-            print(f"===================================================================================================")
-            print(f"Current patient: {patient.id}, age: {patient.age}, ethnicity: {patient.ethnicity}, gender: {patient.gender}, deprivation: {patient.deprivation_level}")
-            print(f"===================================================================================================")
+            print()
+            print(f"===========================================================================================================================================")
+            print(f"Current patient: {patient.id}, region: {patient.region}, area: {patient.area}, age: {patient.age}, ethnicity: {patient.ethnicity}, gender: {patient.gender}, deprivation: {patient.deprivation_level}")
+            print(f"===========================================================================================================================================")
 
         ## Set up prior initial probabilities for all modules
         # create a dictionary of modules
