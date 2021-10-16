@@ -16,7 +16,7 @@ MultiplicationValues,mult,Heart failure,1,1,1,1,1,1,1.01,
 MultiplicationValues,mult,Stroke,1,1,1,1,1,1,1.01,
 StaticCharacteristics,Gender,Male,1,1,1,1,1,1,1.4,males at higher risk of stroke
 StaticCharacteristics,ethnicity,Pacific Peoples,1,1,2,2,1.2,1.2,1,
-StaticCharacteristics,ethnicity,Maori,1,1,2,2,3,1,0.8,
+StaticCharacteristics,ethnicity,Maori,1,1,2,2,2,1,1.5,
 StaticCharacteristics,ethnicity,Asian,1,1,1,1,1,0.7,0.3,Much lower revalance among Asian
 DynamicCharacteristics,physical_activity,No-Activity,1,1,1.5,1.5,1.5,1.5,1.5,
 DynamicCharacteristics,body_size,Overweight,1,1,1.2,1.2,1.2,1.2,1.2,
@@ -24,6 +24,6 @@ DynamicCharacteristics,body_size,Obese,1,1,1.4,1.4,1.4,1.4,1.4,
 DynamicCharacteristics,smoking,Regular Smoker,1,1,1,1,1.5,1.5,2,
 DynamicCharacteristics,diabetes_2,Prediabetes,1,1,1.5,1.5,1.5,1.5,1.5,
 DynamicCharacteristics,diabetes_2,Type 2,1,1,2,2,2,2,2,
-DynamicCharacteristics,age_range,40_44,1,1,50,100,35,50,25,
-DynamicCharacteristics,age_range,65_69,1,1,1,2,5,1,1.5,
-DynamicCharacteristics,age_range,75_79,1,1,1,3,1,1,1,Atrial fibrillation is much more common in those aged over 75
+DynamicCharacteristics,age_range,40_44,1,1,25,25,40,15,15,
+DynamicCharacteristics,age_range,65_69,1,1,1,2,2,2,2,
+DynamicCharacteristics,age_range,75_79,1,1,1,3,10,15,2,Atrial fibrillation is much more common in those aged over 75

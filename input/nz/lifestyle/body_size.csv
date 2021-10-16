@@ -1,23 +1,25 @@
 ﻿type,variable,value,Underweight,Healthy weight,Overweight,Obese,Comment
-PriorProbabilities,age_range,0_4,0.06,0.79,0.12,0.03,NZ stats for 2006/07
-PriorTransitionProbabilities,prob,Underweight,0.7,0.3,0,0,initially
-PriorTransitionProbabilities,prob,Healthy weight,0.007,0.803,0.1,0,healthy generally stays similar
-PriorTransitionProbabilities,prob,Overweight,0,0.1,0.6,0.3,overweight generally stays similar
-PriorTransitionProbabilities,prob,Obese,0,0,0.1,0.9,obese generally stays the same
+PriorProbabilities,age_range,0_4,0.07,0.79,0.15,0.05,NZ stats for 2006/07
+PriorTransitionProbabilities,prob,Underweight,0.6,0.4,0,0,initially
+PriorTransitionProbabilities,prob,Healthy weight,0.007,0.793,0.2,0,healthy generally stays similar
+PriorTransitionProbabilities,prob,Overweight,0,0.1,0.65,0.25,overweight generally stays similar
+PriorTransitionProbabilities,prob,Obese,0,0,0.2,0.8,obese generally stays the same
 MultiplicationValues,mult,Underweight,1.05,1,1,1,
-MultiplicationValues,mult,Healthy weight,1,0.9,1,1,
+MultiplicationValues,mult,Healthy weight,1,1,1,1,
 MultiplicationValues,mult,Overweight,1,1,1.1,1,
-MultiplicationValues,mult,Obese,1,1,1,1.1,
+MultiplicationValues,mult,Obese,1,1,1,1.2,
 StaticCharacteristics,gender,Female,0.66,0.8,1.34,1,
-StaticCharacteristics,ethnicity,Maori,1,0.6,1.1,2.7,
-StaticCharacteristics,ethnicity,Pacific Peoples,0.15,0.3,0.9,3.5,
-StaticCharacteristics,ethnicity,Asian,2,1,0.9,0.9,
+StaticCharacteristics,gender,Male,1.34,1.2,0.66,1,
+StaticCharacteristics,ethnicity,Maori,0.5,0.8,1.1,3,
+StaticCharacteristics,ethnicity,Pacific Peoples,0.1,0.3,0.9,3.5,
+StaticCharacteristics,ethnicity,Asian,1.6,1.5,1.1,0.9,
 StaticCharacteristics,deprivation,>6,1,0.9,0.87,2,
 StaticCharacteristics,deprivation,<4,1.23,1.1,1.13,0.7,
 DynamicCharacteristics,age_range,15_19,1,0.6,2.5,1.5,"at 15, dramatically increase chances of being overweight"
 DynamicCharacteristics,age_range,25_29,1,0.7,1.1,1.1,healthy weight drop after 25
 DynamicCharacteristics,age_range,40_44,0.7,0.7,1.5,2,underweight drops drastically after 44
+DynamicCharacteristics,age_range,40_44,1,1,1,2,
 DynamicCharacteristics,age_range,50_54,1,0.6,5,5,
-DynamicCharacteristics,age_range,60_64,2,1,4,2,but then rises again after 60
+DynamicCharacteristics,age_range,60_64,1.5,1,3,2,but then rises again after 60
 DynamicCharacteristics,physical_activity,Active,1,1.5,0.8,0.7,Increased physical activity improves body size
 DynamicCharacteristics,smoking,Regular smoker,1.2,0.9,1.2,1.4,Smoking increases both underweight and overweight/obesity
