@@ -1,9 +1,7 @@
 ﻿type,variable,value,None,Type 1,Comment
-PriorProbabilities,age_range,0_4,0.999964,0.000036,very low prevalance in 0 to 4
-PriorTransitionProbabilities,prob,None,0.999945,0.000055,chance of getting it rises slightly in 5-9 and 10-14
-PriorTransitionProbabilities,prob,Type 1,0,1,type 1 is for life
-MultiplicationValues,mult,None,1,1,assume no change
-MultiplicationValues,mult,Type 1,1,1,assume no change
-StaticCharacteristics,ethnicity,European,1,1.2,European ethnicity has higher prevalance
-DynamicCharacteristics,age_range,15_19,1,0.2,reduce chance of being diagnosed dramatically
-DynamicCharacteristics,age_range,20_24,1,0.2,reduce them even further
+PriorInitialProb,age_range,0_4,0.999964,0.000036,very low prevalance in 0 to 4; 0.000227 in ages 0-24;https://www.researchgate.net/publication/7716674_Prevalence_of_Type_1_diabetes_in_New_Zealanders_aged_0-24_years
+PriorTransProb,prob,None,0.999945,0.000055,chance of getting it rises slightly in 5-9 and 10-14; https://www.researchgate.net/publication/7716674_Prevalence_of_Type_1_diabetes_in_New_Zealanders_aged_0-24_years
+PriorTransProb,prob,Type 1,0,1,type 1 is for life
+StaticChar,ethnicity,European,1,1.2,European ethnicity has higher prevalance; https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0032640
+DynamicChar,age_range,15_19,1,0.2,reduce chance of being diagnosed drastically
+DynamicChar,age_range,20_24,1,0.2,reduce them even further

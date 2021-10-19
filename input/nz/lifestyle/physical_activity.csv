@@ -1,23 +1,22 @@
 ﻿type,variable,value,Active,Insufficient,No-activity,Comment
-PriorProbabilities,age_range,0_4,1,0,0,All under 5 counted as active
-PriorProbabilities,age_range,5_9,0.436,0.564,0,43.6% of 5-15s are active
-PriorProbabilities,age_range,15_19,0.6,0.3,0.1,
-PriorTransitionProbabilities,prob,Active,0.9,0.1,0,"A person is most likely to stay active, but some chance of moving to insufficient"
-PriorTransitionProbabilities,prob,Insufficient,0.1,0.8,0.1,A person has some chance of become more or less active
-PriorTransitionProbabilities,prob,No-activity,0,0.1,0.9,A person has some chance of becoming more active
-MultiplicationValues,mult,Active,1,1,1,Slight variance
-MultiplicationValues,mult,Insufficient,0.9,1.2,1,Slight variance
-MultiplicationValues,mult,No-activity,1,1,1.2,Slight variance
-StaticCharacteristics,gender,Female,1.16,0.9,0.76,
-StaticCharacteristics,gender,Male,0.84,1.1,1.24,
-StaticCharacteristics,ethnicity,Maori,1,1.1,1.15,
-StaticCharacteristics,ethnicity,Pacific Peoples,1,1.15,1.15,
-StaticCharacteristics,ethnicity,Asian,0.8,1.5,1.5,
-DynamicCharacteristics,age_range,65_69,1,1,1.1,After 65 more likely to be less active
-DynamicCharacteristics,age_range,75_79,0.8,0.7,1.8,"After 75, the chance of reduced activity raise even more"
-StaticCharacteristics,deprivation_score,>6,0.8,0.96,2.53,Adjustments based on deprivation
-StaticCharacteristics,deprivation_score,<4,1.2,1.04,0.23,Adjustments based on deprivation
-DynamicCharacteristics,smoking,Regular smoker,0.8,1.2,1.2,Descrease probability of being active if patients is a smoker
-DynamicCharacteristics,smoking,Ex-smoker,1.1,1,1,Slightly increase prob of physical activity if a patient quit smoking
-DynamicCharacteristics,body_size,Healthy weight,1.3,0.8,0.5,Healthy body = more likely to be active
-DynamicCharacteristics,CVD,Congenital heart defects,0.8,1.2,1.4,Heart defects can affect capacity for exercise
+PriorInitialProb,age_range,0_4,1,0,0,All under 5 counted as active
+PriorInitialProb,age_range,5_9,0.436,0.564,0,43.6% of 5-15s are active
+PriorInitialProb,age_range,15_19,0.6,0.3,0.1,
+PriorTransProb,prob,Active,0.9,0.1,0,"A person is most likely to stay active, but some chance of moving to insufficient"
+PriorTransProb,prob,Insufficient,0.1,0.8,0.1,A person has some chance of become more or less active
+PriorTransProb,prob,No-activity,0,0.1,0.9,A person has some chance of becoming more active
+StaticChar,gender,Female,1.16,0.9,0.76,https://minhealthnz.shinyapps.io/nz-health-survey-2018-19-annual-data-explorer/_w_07361577/_w_6681b233/_w_022902a4/#!/explore-topics
+StaticChar,gender,Male,0.84,1.1,1.24,https://minhealthnz.shinyapps.io/nz-health-survey-2018-19-annual-data-explorer/_w_07361577/_w_6681b233/_w_022902a4/#!/explore-topics
+StaticChar,ethnicity,Maori,1,1.1,1.15,https://minhealthnz.shinyapps.io/nz-health-survey-2018-19-annual-data-explorer/_w_07361577/_w_6681b233/_w_022902a4/#!/explore-topics
+StaticChar,ethnicity,Pacific Peoples,1,1.15,1.15,https://minhealthnz.shinyapps.io/nz-health-survey-2018-19-annual-data-explorer/_w_07361577/_w_6681b233/_w_022902a4/#!/explore-topics
+StaticChar,ethnicity,Asian,0.8,1.5,1.5,https://minhealthnz.shinyapps.io/nz-health-survey-2018-19-annual-data-explorer/_w_07361577/_w_6681b233/_w_022902a4/#!/explore-topics
+StaticChar,deprivation_score,>6,0.8,0.96,2.53,https://minhealthnz.shinyapps.io/nz-health-survey-2018-19-annual-data-explorer/_w_07361577/_w_6681b233/_w_022902a4/#!/explore-topics
+StaticChar,deprivation_score,<4,1.2,1.04,0.23,https://minhealthnz.shinyapps.io/nz-health-survey-2018-19-annual-data-explorer/_w_07361577/_w_6681b233/_w_022902a4/#!/explore-topics
+DynamicChar,physical_activity,Insufficient,0.9,1.2,1,Slightly increase the chances of remaining insufficient the older someone gets
+DynamicChar,physical_activity,No-activity,1,1,1.2,slightly increase the chances of remaining as no-activity the older someone gets
+DynamicChar,age_range,65_69,1,1,1.1,After 65 more likely to be less active
+DynamicChar,age_range,75_79,0.8,0.7,1.8,"After 75, the chance of reduced activity raise even more"
+DynamicChar,smoking,Regular smoker,0.8,1.2,1.2,Descrease probability of being active if patient is a smoker
+DynamicChar,smoking,Ex-smoker,1.1,1,1,Slightly increase prob of physical activity if a patient quit smoking
+DynamicChar,body_size,Healthy weight,1.3,0.8,0.5,Healthy body = more likely to be active
+DynamicChar,CVD,Congenital heart defects,0.8,1.2,1.4,Heart defects can affect capacity for exercise
