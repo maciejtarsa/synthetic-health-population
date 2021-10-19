@@ -13,40 +13,35 @@ def set_initial_prob(module, data, patient, debug):
         debug: boolean, whether to show debugging information
     Returns:
         states: a list of possible states
-        posterior_transition_prob: posterior state transition probabilities
-        multiply_transitions: state transition multiplication
+        posterior_trans_prob: posterior state transition probabilities
     """
     # set states
     states = data.iloc[:,3:-1].columns.tolist()
     # extract the prior transition probabilities
-    prior_transition_prob = data.loc[data['type'] == 'PriorTransitionProbabilities']
-    # and the multiplication values
-    multiplication_values = data.loc[data['type'] == 'MultiplicationValues']
+    prior_trans_prob = data.loc[data['type'] == 'PriorTransProb']
     # and static characteristics
-    static_char = data.loc[data['type'] == 'StaticCharacteristics']
-    # set posterior transition probabilities and mutliply transitions
-    posterior_transition_prob = []
-    multiply_transitions = []
+    static_char = data.loc[data['type'] == 'StaticChar']
+    # set posterior transition probabilities
+    posterior_trans_prob = []
     # iterate over a number of states
     for i in range(len(states)):
-      posterior_transition_prob.append(prior_transition_prob.iloc[i,3:-1].values.tolist())
-      multiply_transitions.append(multiplication_values.iloc[i,3:-1].values.tolist())
+      posterior_trans_prob.append(prior_trans_prob.iloc[i,3:-1].values.tolist())
 
     if debug:
       print()
       print(f"Module: {module}")
       print(f"Possible states: {states}")
-      print(f"Prior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_transition_prob]))
+      print(f"Prior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_trans_prob]))
 
     ## amend prior transition probabilities based on static characteristics
-    for index, row in static_char.iterrows():
+    for row in static_char.itertuples():
       multiplications, changed = amend_prob_char(row, patient, debug)
       if changed:
-        posterior_transition_prob = amend_prob(posterior_transition_prob, [multiplications]*len(states))
+        posterior_trans_prob = amend_prob(posterior_trans_prob, [multiplications]*len(states))
         if debug:
-          print(f"- Posterior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_transition_prob]))
+          print(f"- Posterior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_trans_prob]))
 
-    return states, posterior_transition_prob, multiply_transitions
+    return states, posterior_trans_prob
 
 # a helper function for selecting next state from a list of states with probabilities
 def mcmc(states, probabilities, initial_state):
@@ -98,77 +93,82 @@ def amend_prob(probabilities, amendments):
     probabilities[i] = [float(j)/sum(probabilities[i]) for j in probabilities[i]]
   return probabilities
 
+# a function to check for relevant
+def check_char_equality(char, data, debug):
+  """
+  A function to check if the characteristics is equal, greater than or less than
+  Parameters:
+    char: details of the characteristic
+    data: either patient data, current timeline or previous tmeline
+  Returns:
+    changed: a boolean value of whether the mutliplications have been changed
+    mult: multiplication values to use
+  """
+  # get the number of possible states
+  no_states = len(char[4:-1])
+  # by default, set multiplicaton to to a list of 1s
+  mult = [1 for i in range(no_states)]
+  # set changed to False by default
+  changed = False
+
+  # check if it refers to greater than
+  if char[3][0] == '>':
+    if int(data[char[2]]) > int(char[3][1:]):
+      # get multiplication values
+      mult = char[4:-1]
+      changed = True
+      print_multiplications(char[2],char[3], mult, debug)
+  # or less than
+  elif char[3][0] == '<':
+    if int(data[char[2]]) < int(char[3][1:]):
+      mult = char[4:-1]
+      changed = True
+      print_multiplications(char[2],char[3], mult, debug)
+  # otherwise assume equals
+  else:
+    if data[char[2]] == char[3]:
+      mult= char[4:-1]
+      changed = True
+      print_multiplications(char[2],char[3], mult, debug)
+
+  return changed, mult
+
 # a function to multiply probabilities based on characteristics
-def amend_prob_char(characteristic, current_data, debug, previous_data = {}):
+def amend_prob_char(char, current_data, debug, previous_data = {}):
   """
   A function to iterate over given characteristics and extract relevant
   multiplications.
   Parameters:
-    characteristics: a row of a dataframe containing characteristics
+    char: a row of a dataframe containing characteristics
     current_data: a dictionary containing patient or timeline information
     debug: boolean, whether to show debugging information
     previous_data: a dictionary containing previous timeline, by default an empty dict
   Returns:
-    mulitplications: either list of 1s or multiplication to multiply probabilities by
+    mult: either list of 1s or multiplication to multiply probabilities by
     changed: a boolean value of whether the mutliplications have been changed
   """
   # get the number of possible states
-  no_states = len(characteristic[3:-1])
-
+  no_states = len(char[4:-1])
+  # by default, set multiplicaton to to a list of 1s
+  mult = [1 for i in range(no_states)]
   # set changed to False by default
   changed = False
 
-  # by default, set multiplicaton to to a list of 1s
-  multiplications = [1 for i in range(no_states)]
+  # check for current data
+  if char[2] in set(current_data.keys()):
+    # get multiplication if relevant
+    changed, mult = check_char_equality(char, current_data, debug)
 
-  if characteristic['variable'] in current_data.keys():
-    # check if it refers to greater than
-    if characteristic['value'][0] == '>':
-      if int(current_data[characteristic['variable']]) > int(characteristic['value'][1:]):
-        # get multiplication values
-        multiplications = characteristic[3:-1].values
-        changed = True
-        print_multiplications(characteristic['variable'],characteristic['value'], multiplications, debug)
-    # or less than
-    elif characteristic['value'][0] == '<':
-      if int(current_data[characteristic['variable']]) < int(characteristic['value'][1:]):
-        multiplications = characteristic[3:-1].values
-        changed = True
-        print_multiplications(characteristic['variable'],characteristic['value'], multiplications, debug)
-    # otherwise assume equals
-    else:
-      if current_data[characteristic['variable']] == characteristic['value']:
-        multiplications = characteristic[3:-1].values
-        changed = True
-        print_multiplications(characteristic['variable'],characteristic['value'], multiplications, debug)
-    
   # check if that characteristic is present in previous timeline
   # this allows for circular dependencies to take effect
-  elif (previous_data != None) & (characteristic['variable'] in previous_data.keys()):
-    # check if it refers to greater than
-    if characteristic['value'][0] == '>':
-      if int(previous_data[characteristic['variable']]) > int(characteristic['value'][1:]):
-        # get multiplication values
-        multiplications = characteristic[3:-1].values
-        changed = True
-        print_multiplications(characteristic['variable'],characteristic['value'], multiplications, debug)
-    # or less than
-    elif characteristic['value'][0] == '<':
-      if int(previous_data[characteristic['variable']]) < int(characteristic['value'][1:]):
-        multiplications = characteristic[3:-1].values
-        changed = True
-        print_multiplications(characteristic['variable'],characteristic['value'], multiplications, debug)
-    # otherwise assume equals
-    else:
-      if previous_data[characteristic['variable']] == characteristic['value']:
-        multiplications = characteristic[3:-1].values
-        changed = True
-        print_multiplications(characteristic['variable'],characteristic['value'], multiplications, debug)
+  elif (previous_data != None) & (char[2] in set(previous_data.keys())):
+    # get multiplication if relevant
+    changed, mult = check_char_equality(char, previous_data, debug)
 
-  return multiplications, changed
+  return mult, changed
 
 # a helper for printing debugging information
-def print_multiplications(variable, value, multiplications, debug):
+def print_multiplications(variable, value, mult, debug):
   """
   A function to print debugging information when relevant
   Paramteres:
@@ -181,7 +181,7 @@ def print_multiplications(variable, value, multiplications, debug):
   """
   if debug:
     print(f"- Relevant variable: {variable}; value: {value}")
-    print(f"- Prior probabilities need multiplying by: {multiplications}")
+    print(f"- Prior probabilities need multiplying by: {mult}")
 
 # module runner
 def run_module(module, data, age_range, patient, current_timeline, previous_timeline, module_dict, debug):
@@ -205,13 +205,12 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
 
   # extract states, t and m probabilities from the module dict
   states = module_dict[module][0]
-  posterior_transition_prob = module_dict[module][1]
-  multiply_transitions = module_dict[module][2]
+  posterior_trans_prob = module_dict[module][1]
 
   # extract the demographic details
-  prior_probabilities = data.loc[data['type'] == 'PriorProbabilities']
-  char_static = data.loc[data['type'] == 'StaticCharacteristics']
-  char_dynamic = data.loc[data['type'] == 'DynamicCharacteristics']
+  prior_initial_prob = data.loc[data['type'] == 'PriorInitialProb']
+  static_char = data.loc[data['type'] == 'StaticChar']
+  dynamic_char = data.loc[data['type'] == 'DynamicChar']
 
   if debug:
     print(f"---------------------")
@@ -219,53 +218,43 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
     print(f"---------------------")
 
   # if age range is included in the initial set up
-  if age_range in prior_probabilities['value'].values:
+  if age_range in set(prior_initial_prob['value'].values):
     ## initial set up
-    # iterate over each variable and amend as relevant
-    for index, row in prior_probabilities.iterrows():
-      if age_range == row['value']:
-        probabilities = row[3:-1].values
-        
+    # get the relevant prior initial probabilities
+    probabilities = prior_initial_prob.loc[prior_initial_prob['value'] == age_range][states].values
     if debug:
       print(f"- Initial probabilities: {probabilities}")
     ## amend initial setup based on static characteristics
-    for index, row in char_static.iterrows():
-      multiplications, changed = amend_prob_char(row, patient, debug)
+    for row in static_char.itertuples():
+      mult, changed = amend_prob_char(row, patient, debug)
       if changed:
-        probabilities = amend_prob([probabilities], [multiplications])[0]
+        probabilities = amend_prob(probabilities, [mult])
         if debug:
-          print(f"- Posterior probabilities: "+str([f"{x:.3f}" for x in probabilities]))
+          print(f"- Posterior probabilities: "+str([[f"{x:.3f}" for x in y] for y in probabilities]))
 
-    # set the state status
-    state_status = choices(states, probabilities, k=1)[0]
+    # choose the state
+    module_state = choices(states, probabilities[0], k=1)[0]
     if debug:
-      print(f"== Selected state: {state_status} ==")
+      print(f"== Selected state: {module_state} ==")
 
   ## transitions
   # if age_range is not included in the set up
-  if age_range not in prior_probabilities['value'].values:
+  if age_range not in set(prior_initial_prob['value'].values):
     if debug:
-      print(f"- Prior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_transition_prob]))
+      print(f"- Prior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_trans_prob]))
     # amend transitions based on dynamic characteristics
-    for index, row in char_dynamic.iterrows():
-      multiplications, changed = amend_prob_char(row, current_timeline, debug, previous_timeline)
+    for row in dynamic_char.itertuples():
+      mult, changed = amend_prob_char(row, current_timeline, debug, previous_timeline)
       if changed:
-        posterior_transition_prob = amend_prob(posterior_transition_prob, [multiplications]*len(states))
+        posterior_trans_prob = amend_prob(posterior_trans_prob, [mult]*len(states))
         if debug:
-          print(f"- Posterior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_transition_prob]))
+          print(f"- Posterior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_trans_prob]))
 
     # choose the next state
-    state_status = mcmc(states, posterior_transition_prob, module_dict[module][3])
-    # amend the probabilities based on multiplications
-    # ready for the next age range
-    posterior_transition_prob = amend_prob(posterior_transition_prob, multiply_transitions)
-    if debug:
-      print(f"== Selected state: {state_status} ==")
-      print(f"- Multiplications to apply for the next state: {multiply_transitions}")
-      print(f"- Posterior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_transition_prob]))
-
+    module_state = mcmc(states, posterior_trans_prob, module_dict[module][2])
+  
   # update the module dictionary with new t probabilities
-  module_dict[module] = (states, posterior_transition_prob, multiply_transitions, state_status)
+  module_dict[module] = (states, posterior_trans_prob, module_state)
 
   # return the status for that timeline and module and the update module_dict
-  return state_status, module_dict
+  return module_state, module_dict

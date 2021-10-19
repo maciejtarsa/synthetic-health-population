@@ -106,9 +106,9 @@ def generate_patients(population, display, debug):
         # to store prior state transition probabilities
         module_dict = {}
         for module, data in modules.items():
-            states, prior_transition_prob, multiply_transitions = set_initial_prob(module, data, patient.__dict__, debug)
+            states, prior_trans_prob = set_initial_prob(module, data, patient.__dict__, debug)
             # add the states, prior state transition probabilities and prior state multiplications to the module dictionary
-            module_dict[module] = (states, prior_transition_prob, multiply_transitions, '')
+            module_dict[module] = (states, prior_trans_prob,'')
 
         ## Timeline generation
         # get the index of the current age range from the list plus 1
@@ -157,6 +157,6 @@ def generate_patients(population, display, debug):
             print(f"Next patient")
 
         if display:
-            print(f"Patient: {patient.id}, {patient.region}, {patient.area}, {patient.gender}, {patient.ethnicity}, {patient.age_range}, {patient.dob}")
+            print(f"Patient: {patient.id}, {patient.region}, {patient.area}, {patient.ethnicity}, {patient.gender}, {patient.age_range}, {patient.dob}, {patient.deprivation_level}")
 
     print(f"Executed in {(time() - start_time)/60} minutes.")
