@@ -2,14 +2,15 @@
 PriorInitialProb,age_range,0_4,1,0,0,0,assume no diabetes in under 15s
 PriorInitialProb,age_range,5_9,1,0,0,0,assume no diabetes in under 15s
 PriorInitialProb,age_range,10_14,1,0,0,0,assume no diabetes in under 15s
-PriorInitialProb,age_range,15_19,0.92945,0.00005,0.075,0.0005,
-PriorTransProb,prob,None,0.98495,0.00005,0.03,0,
+PriorInitialProb,age_range,15_19,0.98175,0.00005,0.018,0.0002,
+PriorTransProb,prob,None,0.98175,0.00005,0.018,0.0002,
 PriorTransProb,prob,Gestational,0.8,0,0.1,0.1,
-PriorTransProb,prob,Prediabetes,0.15,0,0.7,0.15,
-PriorTransProb,prob,Type 2,0.1,0,0,0.9,
+PriorTransProb,prob,Prediabetes,0.15,0,0.71,0.14,
+PriorTransProb,prob,Type 2,0.15,0,0,0.85,
 StaticChar,gender,Male,1,0,1,1.43,"Gestational only present in Females, Males generally higher"
-StaticChar,ethnicity,Pacific Peoples,0.9,1,2.5,6.5,much higher prevalance among Pacific Peoples; https://pubmed.ncbi.nlm.nih.gov/23474511/
-StaticChar,ethnicity,Maori,1,1,1.8,3,much higher prevalance among Maori peoples; https://pubmed.ncbi.nlm.nih.gov/23474511/
+StaticChar,ethnicity,Pacific Peoples,0.9,1,2.8,4.7,much higher prevalance among Pacific Peoples; https://pubmed.ncbi.nlm.nih.gov/23474511/
+StaticChar,ethnicity,Maori,1,1,2.1,2.9,much higher prevalance among Maori peoples; https://pubmed.ncbi.nlm.nih.gov/23474511/
+StaticChar,ethnicity,Asian,1,1,1.5,2,
 DynamicChar,body_size,obese,1,1,1.65,5.68,obese people far more likely to have diabetes and hence prediabetes; https://pubmed.ncbi.nlm.nih.gov/23474511/
 DynamicChar,body_size,overweight,1,1,1.37,2.36,overweight people more likely to have diabetes too; https://pubmed.ncbi.nlm.nih.gov/23474511/
 DynamicChar,age_range,25_29,0.8,1,2.2,1,
