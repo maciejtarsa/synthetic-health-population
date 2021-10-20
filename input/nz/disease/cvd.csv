@@ -1,6 +1,6 @@
 ﻿type,variable,value,None,Congenital heart defects,Hypertension,Coronary heart disease,Atrial fibrillation,Heart attack,Heart failure,Stroke,Comment
 PriorInitialProb,age_range,0_4,0.991,0.009,0,0,0,0,0,0,9 in 1000 babies born have heart defects; https://www.hri.org.nz/health/learn/cardiovascular-disease/congenital-heart-disease 
-PriorTransProb,prob,None,0.9989,0,0.0004,0.0002,0.0002,0.0001,0.0001,0.0001,
+PriorTransProb,prob,None,0.9981,0,0.001,0.0004,0.0002,0.0001,0.0001,0.0001,
 PriorTransProb,prob,Congenital heart defects,0,0.95,0.05,0,0,0,0.05,0,
 PriorTransProb,prob,Hypertension,0,0,0.3,0.15,0.1,0.15,0.15,0.15,
 PriorTransProb,prob,Coronary heart disease,0.1,0,0,0.7,0,0,0.1,0.1,
