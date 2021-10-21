@@ -8,9 +8,9 @@ PriorTransProb,prob,Gestational,0.8,0,0.1,0.1,
 PriorTransProb,prob,Prediabetes,0.15,0,0.71,0.14,
 PriorTransProb,prob,Type 2,0.15,0,0,0.85,
 StaticChar,gender,Male,1,0,1,1.43,"Gestational only present in Females, Males generally higher"
-StaticChar,ethnicity,Pacific Peoples,0.9,1,2.8,4.7,much higher prevalance among Pacific Peoples; https://pubmed.ncbi.nlm.nih.gov/23474511/
-StaticChar,ethnicity,Maori,1,1,2.1,2.9,much higher prevalance among Maori peoples; https://pubmed.ncbi.nlm.nih.gov/23474511/
-StaticChar,ethnicity,Asian,1,1,1.5,2,
+StaticChar,ethnicity,Pacific Peoples,0.9,1,2.6,6.4,much higher prevalance among Pacific Peoples; https://pubmed.ncbi.nlm.nih.gov/23474511/
+StaticChar,ethnicity,Maori,1,1,2.1,2.7,much higher prevalance among Maori peoples; https://pubmed.ncbi.nlm.nih.gov/23474511/
+StaticChar,ethnicity,Asian,1,1,1.4,1.7,
 DynamicChar,body_size,obese,1,1,1.65,5.68,obese people far more likely to have diabetes and hence prediabetes; https://pubmed.ncbi.nlm.nih.gov/23474511/
 DynamicChar,body_size,overweight,1,1,1.37,2.36,overweight people more likely to have diabetes too; https://pubmed.ncbi.nlm.nih.gov/23474511/
 DynamicChar,age_range,25_29,0.8,1,2.2,1,
