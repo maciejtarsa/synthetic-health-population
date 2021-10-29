@@ -1,21 +1,33 @@
 #!/usr/bin/python3
+from dataclasses import dataclass, field
 
-# a file containing the specificiation of class Patient
-
+@dataclass
 class Patient:
-
-    # variables?
-
-    # constructor
-    def __init__(self, id, region, area, ethnicity, gender, age_range, dob, age, deprivation_level):
-        self.id = id
-        self.region = region
-        self.area = area
-        self.ethnicity = ethnicity
-        self.gender = gender
-        self.age_range = age_range
-        self.dob = dob
-        self.age = age
-        self.deprivation_level = deprivation_level
-        self.timelines = {}
+    """
+    A class to represent a patient.
+    
+    Attributes
+    ----------
+    id: str
+    region: str
+    area: str
+    ethnicity: str
+    gender: str
+    age_range: str
+    dob: str
+    age: int
+    deprivation_level: int
+    timelines: dict (empty by default)
+    """
+    
+    id: str
+    region: str
+    area: str
+    ethnicity: str
+    gender: str
+    age_range: str
+    dob: str
+    age: int
+    deprivation_level: int
+    timelines: dict = field(default_factory=dict)
         
