@@ -63,5 +63,5 @@ generate_patients --debug
 ```
 #### print information about each patient
 ```
-generate_patients --print
+generate_patients --display
 ```
