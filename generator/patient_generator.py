@@ -68,7 +68,7 @@ def generate_patients(population, display, debug):
     print(f"Starting generation of {population:,} patients.")
 
     # generate the specified number of patients
-    for _ in tqdm(range(1, int(population)+1)):
+    for _ in tqdm(range(population)):
 
         ## Patient generation
         # generate information for a patient
