@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from pandas import read_csv
-from time import time
+
 from tqdm import tqdm
 from configparser import ConfigParser
 
@@ -14,7 +14,6 @@ from .helpers_timelines import  set_initial_prob, run_module
 # import patient class
 from .patient_class import Patient
 
-start_time = time()
 
 # read the configuration file
 parser = ConfigParser()
@@ -54,109 +53,105 @@ for module in modules:
     header_timeline += ',' + module
 create_csv('output/timelines.csv', header_timeline)
 
-def generate_patients(population, display, debug):
+def generate_patient(display=False, debug=False):
     """
     Patient and timeline generator
     Parameters:
-        population: an integer value for the number of patients to generate
         display: a boolean value, whether to display patient information while generating
         debug: boolean, whether to show debugging information
     Returns:
         None
     """
 
-    print(f"Starting generation of {population:,} patients.")
-
     # generate the specified number of patients
-    for _ in tqdm(range(population)):
 
-        ## Patient generation
-        # generate information for a patient
-        # if country id NZ, generate NHI number
-        if country == 'NZ':
-            id = generate_nhi_id()
-        else:
-            id = generate_random_id()
-        region = select_region(demographics)
-        area = select_area(demographics, region)
-        ethnicity = select_ethnicity(demographics, region, area)
-        gender = select_gender(demographics, region, area, ethnicity)
-        dob, age_range = select_age(demographics, region, area, ethnicity)
-        deprivation_level = match_deprivation(deprivation, area)
-        age = calculate_age(dob)
+    #for _ in tqdm(range(population)):
 
-        # generate a patient object
-        patient = Patient(id, region, area, ethnicity, gender, age_range, dob, age, deprivation_level)
+    ## Patient generation
+    # generate information for a patient
+    # if country id NZ, generate NHI number
+    if country == 'NZ':
+        id = generate_nhi_id()
+    else:
+        id = generate_random_id()
+    region = select_region(demographics)
+    area = select_area(demographics, region)
+    ethnicity = select_ethnicity(demographics, region, area)
+    gender = select_gender(demographics, region, area, ethnicity)
+    dob, age_range = select_age(demographics, region, area, ethnicity)
+    deprivation_level = match_deprivation(deprivation, area)
+    age = calculate_age(dob)
 
-        # save to patients' file
-        data = [patient.id, patient.region, patient.area, \
-                patient.ethnicity, patient.gender, \
-                patient.age_range, patient.dob, \
-                patient.deprivation_level]
-        append_to_csv('output/patients.csv', data)
+    # generate a patient object
+    patient = Patient(id, region, area, ethnicity, gender, age_range, dob, age, deprivation_level)
+
+    # save to patients' file
+    data = [patient.id, patient.region, patient.area, \
+            patient.ethnicity, patient.gender, \
+            patient.age_range, patient.dob, \
+            patient.deprivation_level]
+    append_to_csv('output/patients.csv', data)
+
+    if debug:
+        print()
+        print(f"===========================================================================================================================================")
+        print(f"Current patient: {patient.id}, region: {patient.region}, area: {patient.area}, age: {patient.age}, ethnicity: {patient.ethnicity}, gender: {patient.gender}, deprivation: {patient.deprivation_level}")
+        print(f"===========================================================================================================================================")
+
+    ## Set up prior initial probabilities for all modules
+    # create a dictionary of modules
+    # to store prior state transition probabilities
+    module_dict = {}
+    for module, data in modules.items():
+        states, prior_trans_prob = set_initial_prob(module, data, patient.__dict__, debug)
+        # add the states, prior state transition probabilities and prior state multiplications to the module dictionary
+        module_dict[module] = (states, prior_trans_prob,'')
+
+    ## Timeline generation
+    # get the index of the current age range from the list plus 1
+    index = ages.index(patient.age_range) + 1
+    # set up an emtpy dictionary for timeline records
+    timelines_dict = {}
+    # set up previous timeline as an empty dictionary, to be used for the first record
+    previous_timeline = {}
+
+
+    # iterate through ages until max age range
+    for age in zip(range(index), ages):
 
         if debug:
             print()
-            print(f"===========================================================================================================================================")
-            print(f"Current patient: {patient.id}, region: {patient.region}, area: {patient.area}, age: {patient.age}, ethnicity: {patient.ethnicity}, gender: {patient.gender}, deprivation: {patient.deprivation_level}")
-            print(f"===========================================================================================================================================")
+            print(f"=====================")
+            print(f"Age range: {age[1]}")
 
-        ## Set up prior initial probabilities for all modules
-        # create a dictionary of modules
-        # to store prior state transition probabilities
-        module_dict = {}
+        # create an empty dictionary to use as module results
+        current_timeline = {'age_range': age[1]}
+
+        # iterate through each module and run it
         for module, data in modules.items():
-            states, prior_trans_prob = set_initial_prob(module, data, patient.__dict__, debug)
-            # add the states, prior state transition probabilities and prior state multiplications to the module dictionary
-            module_dict[module] = (states, prior_trans_prob,'')
+            # run the module and extract result
+            new_state, new_module_dict = run_module(module, data, age[1], patient.__dict__, current_timeline, previous_timeline, module_dict, debug)
+            # result should be a selected status for that age range and module
+            current_timeline[module] = new_state
+            # update the module_dict
+            module_dict = new_module_dict
 
-        ## Timeline generation
-        # get the index of the current age range from the list plus 1
-        index = ages.index(patient.age_range) + 1
-        # set up an emtpy dictionary for timeline records
-        timelines_dict = {}
-        # set up previous timeline as an empty dictionary, to be used for the first record
-        previous_timeline = {}
+        # amend previous timeline to a copy of the current timeline
+        # it will be used by the next timeline iteration
+        previous_timeline = current_timeline.copy()
 
+        # after all modules run, add it to the timelines dictionary
+        timelines_dict[age[1]] = current_timeline
 
-        # iterate through ages until max age range
-        for age in zip(range(index), ages):
+        # save to timelines' file
+        data = [patient.id] + list(current_timeline.values())
+        append_to_csv('output/timelines.csv', data)
+    # add the timelines to the patient object
+    patient.timelines = timelines_dict
 
-            if debug:
-                print()
-                print(f"=====================")
-                print(f"Age range: {age[1]}")
+    if debug:
+        print(f"===================================================================================================")
+        print(f"Next patient")
 
-            # create an empty dictionary to use as module results
-            current_timeline = {'age_range': age[1]}
-
-            # iterate through each module and run it
-            for module, data in modules.items():
-                # run the module and extract result
-                new_state, new_module_dict = run_module(module, data, age[1], patient.__dict__, current_timeline, previous_timeline, module_dict, debug)
-                # result should be a selected status for that age range and module
-                current_timeline[module] = new_state
-                # update the module_dict
-                module_dict = new_module_dict
-
-            # amend previous timeline to a copy of the current timeline
-            # it will be used by the next timeline iteration
-            previous_timeline = current_timeline.copy()
-
-            # after all modules run, add it to the timelines dictionary
-            timelines_dict[age[1]] = current_timeline
-
-            # save to timelines' file
-            data = [patient.id] + list(current_timeline.values())
-            append_to_csv('output/timelines.csv', data)
-        # add the timelines to the patient object
-        patient.timelines = timelines_dict
-
-        if debug:
-            print(f"===================================================================================================")
-            print(f"Next patient")
-
-        if display:
-            print(f"Patient: {patient.id}, {patient.region}, {patient.area}, {patient.ethnicity}, {patient.gender}, {patient.age_range}, {patient.dob}, {patient.deprivation_level}")
-
-    print(f"Executed in {(time() - start_time)/60} minutes.")
+    if display:
+        print(f"Patient: {patient.id}, {patient.region}, {patient.area}, {patient.ethnicity}, {patient.gender}, {patient.age_range}, {patient.dob}, {patient.deprivation_level}")
