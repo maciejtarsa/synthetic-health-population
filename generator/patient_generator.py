@@ -2,7 +2,6 @@
 
 from pandas import read_csv
 
-from tqdm import tqdm
 from configparser import ConfigParser
 
 # import helper functions
@@ -15,48 +14,67 @@ from .helpers_timelines import  set_initial_prob, run_module
 from .patient_class import Patient
 
 
-# read the configuration file
-parser = ConfigParser()
-parser.read('config.ini')
+def generator_set_up():
+    """
+    A function that sets up empty CSV files and loads in available modules
+    Parameters:
+        None
+    Returns:
+        country
+        demographics
+        deprivation
+        ages
+        modules
+    """
+    # read the configuration file
+    parser = ConfigParser()
+    parser.read('config.ini')
 
-# get the country
-country = parser.get('generate', 'country')
+    # get the country
+    country = parser.get('generate', 'country')
 
-# get the demographic data and deprivation data
-demographics_loc = parser.get(country, 'demographics')
-deprivation_loc = parser.get(country, 'deprivation')
+    # get the demographic data and deprivation data
+    demographics_loc = parser.get(country, 'demographics')
+    deprivation_loc = parser.get(country, 'deprivation')
 
-# iterate over modules for that location and create a dictionary
-modules = {}
-print(f"===================================================================================================")
-print(f"Loading available modules:")
-for module, data in parser.items(''.join([country, '_modules'])):
-    modules[module] =  read_csv(data)
-    print(f"{module}")
-print(f"===================================================================================================")
-print()
+    # iterate over modules for that location and create a dictionary
+    modules = {}
+    print(f"===================================================================================================")
+    print(f"Loading available modules:")
+    for module, data in parser.items(''.join([country, '_modules'])):
+        modules[module] =  read_csv(data)
+        print(f"{module}")
+    print(f"===================================================================================================")
+    print()
 
-# import demographics and deprivation
-demographics = read_csv(demographics_loc)
-deprivation = read_csv(deprivation_loc)
+    # import demographics and deprivation
+    demographics = read_csv(demographics_loc)
+    deprivation = read_csv(deprivation_loc)
 
-# set a list of possible age ranges
-ages = ['0_4',	'5_9',	'10_14', '15_19',	'20_24',	'25_29', '30_34',	'35_39', \
-        '40_44',	'45_49',	'50_54',	'55_59',	'60_64',	'65_69',	'70_74', \
-        '75_79',	'80_84',	'85_']
+    # set a list of possible age ranges
+    ages = ['0_4',	'5_9',	'10_14', '15_19',	'20_24',	'25_29', '30_34',	'35_39', \
+            '40_44',	'45_49',	'50_54',	'55_59',	'60_64',	'65_69',	'70_74', \
+            '75_79',	'80_84',	'85_']
 
-# set up output files for patients and timelines
-header_patient = "id,region,area,ethnicity,gender,age_range,dob,deprivation_level"
-create_csv('output/patients.csv', header_patient)
-header_timeline = "id,age_range"
-for module in modules:
-    header_timeline += ',' + module
-create_csv('output/timelines.csv', header_timeline)
+    # set up output files for patients and timelines
+    header_patient = "id,region,area,ethnicity,gender,age_range,dob,deprivation_level"
+    create_csv('output/patients.csv', header_patient)
+    header_timeline = "id,age_range"
+    for module in modules:
+        header_timeline += ',' + module
+    create_csv('output/timelines.csv', header_timeline)
 
-def generate_patient(display=False, debug=False):
+    return country, demographics, deprivation, ages, modules
+    
+
+def generate_patient(country, demographics, deprivation, ages, modules, display=False, debug=False):
     """
     Patient and timeline generator
     Parameters:
+        demographics
+        deprivation
+        ages
+        modules
         display: a boolean value, whether to display patient information while generating
         debug: boolean, whether to show debugging information
     Returns:
