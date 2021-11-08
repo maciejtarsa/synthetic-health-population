@@ -16,8 +16,10 @@ parser.read('config.ini')
 # population to produce
 population_size = int(parser.get('generate', 'population_size'))
 
-# a helper function to count execution time
 def timing(f):
+    """
+    A function that prints out execution time of the whole application
+    """
     @wraps(f)
     def wrapper(*args, **kwargs):
         start = time()

@@ -20,11 +20,11 @@ def generator_set_up():
     Parameters:
         None
     Returns:
-        country
-        demographics
-        deprivation
-        ages
-        modules
+        country: specified country to generate patients for
+        demographics: a DataFrame containing demographic information for that location
+        deprivation: a DataFrame containing deprivation scores for selected location
+        ages: a list of age ranges
+        modules: a dictionary containing module information
     """
     # read the configuration file
     parser = ConfigParser()
@@ -71,23 +71,19 @@ def generate_patient(country, demographics, deprivation, ages, modules, display=
     """
     Patient and timeline generator
     Parameters:
-        demographics
-        deprivation
-        ages
-        modules
+        demographics: a DataFrame containing demographic information
+        deprivation: a DataFrame contaning deprivation scores
+        ages: a list of age ranges
+        modules: a dictionary of module and probabilities
         display: a boolean value, whether to display patient information while generating
         debug: boolean, whether to show debugging information
     Returns:
         None
     """
 
-    # generate the specified number of patients
-
-    #for _ in tqdm(range(population)):
-
     ## Patient generation
     # generate information for a patient
-    # if country id NZ, generate NHI number
+    # if country is NZ, generate NHI number
     if country == 'NZ':
         id = generate_nhi_id()
     else:
