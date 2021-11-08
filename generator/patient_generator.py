@@ -100,11 +100,13 @@ def generate_patient(country, demographics, deprivation, ages, modules, display=
     patient = Patient(id, region, area, ethnicity, gender, age_range, dob, age, deprivation_level)
 
     # save to patients' file
-    data = [patient.id, patient.region, patient.area, \
+    result = []
+    patient_data = [patient.id, patient.region, patient.area, \
             patient.ethnicity, patient.gender, \
             patient.age_range, patient.dob, \
             patient.deprivation_level]
-    append_to_csv('output/patients.csv', data)
+    result.append(patient_data)
+    #append_to_csv('output/patients.csv', patient_data)
 
     if debug:
         print()
@@ -159,7 +161,8 @@ def generate_patient(country, demographics, deprivation, ages, modules, display=
 
         # save to timelines' file
         data = [patient.id] + list(current_timeline.values())
-        append_to_csv('output/timelines.csv', data)
+        result.append(data)
+        #append_to_csv('output/timelines.csv', data)
     # add the timelines to the patient object
     patient.timelines = timelines_dict
 
@@ -169,3 +172,5 @@ def generate_patient(country, demographics, deprivation, ages, modules, display=
 
     if display:
         print(f"Patient: {patient.id}, {patient.region}, {patient.area}, {patient.ethnicity}, {patient.gender}, {patient.age_range}, {patient.dob}, {patient.deprivation_level}")
+
+    return result
