@@ -10,6 +10,7 @@ setup(
         "Click",
         "Pandas",
         "TQDM",
+        "progress",
     ],
     entry_points='''
         [console_scripts] 

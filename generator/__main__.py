@@ -4,6 +4,7 @@ from configparser import ConfigParser
 from functools import wraps
 from time import time
 from tqdm import tqdm
+from progress.bar import ChargingBar
 
 from .patient_generator import generate_patient, generator_set_up
 
@@ -47,26 +48,22 @@ def main(population, display, debug):
         timelines = []
         futures = []
         for i in tqdm(range(population)):
-            
-        ## Method 1:
+            futures.append(pool.submit(generate_patient, country, demographics, deprivation, ages, modules, display, debug))
 
-         #   futures.append(pool.submit(generate_patient, country, demographics, deprivation, ages, modules, display, debug))
-            ## extract that data from the futures object
-        #for x in as_completed(futures):
-        #    patients.append(x.result()[0])
-        #    timelines.append(x.result()[1:])
+        print(f"Generation executed in {(time() - start_time):.3f} seconds.")
 
-            ## Method 2:
-            for out in as_completed([pool.submit(generate_patient, country, demographics, deprivation, ages, modules, display, debug)]):
-                patients.append(out.result()[0])
-                timelines.append(out.result()[1:])
-
+        bar = ChargingBar("Saving to CSV", max=population)
+        for x in as_completed(futures):
+            patients.append(x.result()[0])
+            timelines.append(x.result()[1:])
+            bar.next()
+        bar.finish()
 
         # append them to relevant CSVs
         append_to_csv('output/patients.csv', patients)
         [append_to_csv('output/timelines.csv', timeline) for timeline in timelines]
 
-        print(f"Generation executed in {(time() - start_time):.3f} seconds.")
+        
 
 if __name__ == "__main__":
     exit(main())

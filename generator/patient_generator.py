@@ -8,7 +8,7 @@ from configparser import ConfigParser
 from .helpers_id import generate_nhi_id, generate_random_id
 from .helpers_patient import select_region, select_area, select_ethnicity, \
     select_gender, select_age, calculate_age, match_deprivation 
-from .helpers_csv import create_csv, append_to_csv
+from .helpers_csv import create_csv
 from .helpers_timelines import  set_initial_prob, run_module
 # import patient class
 from .patient_class import Patient
