@@ -252,6 +252,8 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
 
     # choose the next state
     module_state = mcmc(states, posterior_trans_prob, module_dict[module][2])
+    if debug:
+      print(f"== Selected state: {module_state} ==")
   
   # update the module dictionary with new t probabilities
   module_dict[module] = (states, posterior_trans_prob, module_state)
