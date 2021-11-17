@@ -32,12 +32,12 @@ def timing(f):
     return wrapper
 
 @click.command()
-@click.option('--debug', is_flag=True, help="Display debugging details")
+@click.option('--prob', is_flag=True, help="Display probability details")
 @click.option('--display', is_flag=True, help="Display patient details while populating")
 @click.option('--population', '-p', default=population_size, \
                 help='How many patients to produce')
 @timing
-def main(population, display, debug):
+def main(population, display, prob):
     """The main routine."""
     start_time = time()
     country, demographics, deprivation, ages, modules = generator_set_up()
@@ -48,7 +48,7 @@ def main(population, display, debug):
         timelines = []
         futures = []
         for i in tqdm(range(population)):
-            futures.append(pool.submit(generate_patient, country, demographics, deprivation, ages, modules, display, debug))
+            futures.append(pool.submit(generate_patient, country, demographics, deprivation, ages, modules, display, prob))
 
         print(f"Generation executed in {(time() - start_time):.3f} seconds.")
 

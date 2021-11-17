@@ -67,7 +67,7 @@ def generator_set_up():
     return country, demographics, deprivation, ages, modules
     
 
-def generate_patient(country, demographics, deprivation, ages, modules, display=False, debug=False):
+def generate_patient(country, demographics, deprivation, ages, modules, display=False, prob=False):
     """
     Patient and timeline generator
     Parameters:
@@ -76,7 +76,7 @@ def generate_patient(country, demographics, deprivation, ages, modules, display=
         ages: a list of age ranges
         modules: a dictionary of module and probabilities
         display: a boolean value, whether to display patient information while generating
-        debug: boolean, whether to show debugging information
+        prob: boolean, whether to show probability information
     Returns:
         None
     """
@@ -108,7 +108,7 @@ def generate_patient(country, demographics, deprivation, ages, modules, display=
     result.append(patient_data)
     #append_to_csv('output/patients.csv', patient_data)
 
-    if debug:
+    if prob:
         print()
         print(f"===========================================================================================================================================")
         print(f"Current patient: {patient.id}, region: {patient.region}, area: {patient.area}, age: {patient.age}, ethnicity: {patient.ethnicity}, gender: {patient.gender}, deprivation: {patient.deprivation_level}")
@@ -119,7 +119,7 @@ def generate_patient(country, demographics, deprivation, ages, modules, display=
     # to store prior state transition probabilities
     module_dict = {}
     for module, data in modules.items():
-        states, prior_trans_prob = set_initial_prob(module, data, patient.__dict__, debug)
+        states, prior_trans_prob = set_initial_prob(module, data, patient.__dict__, prob)
         # add the states, prior state transition probabilities and prior state multiplications to the module dictionary
         module_dict[module] = (states, prior_trans_prob,'')
 
@@ -135,7 +135,7 @@ def generate_patient(country, demographics, deprivation, ages, modules, display=
     # iterate through ages until max age range
     for age in zip(range(index), ages):
 
-        if debug:
+        if prob:
             print()
             print(f"=====================")
             print(f"Age range: {age[1]}")
@@ -146,7 +146,7 @@ def generate_patient(country, demographics, deprivation, ages, modules, display=
         # iterate through each module and run it
         for module, data in modules.items():
             # run the module and extract result
-            new_state, new_module_dict = run_module(module, data, age[1], patient.__dict__, current_timeline, previous_timeline, module_dict, debug)
+            new_state, new_module_dict = run_module(module, data, age[1], patient.__dict__, current_timeline, previous_timeline, module_dict, prob)
             # result should be a selected status for that age range and module
             current_timeline[module] = new_state
             # update the module_dict
@@ -166,7 +166,7 @@ def generate_patient(country, demographics, deprivation, ages, modules, display=
     # add the timelines to the patient object
     patient.timelines = timelines_dict
 
-    if debug:
+    if prob:
         print(f"===================================================================================================")
         print(f"Next patient")
 

@@ -2,7 +2,7 @@
 from random import choices
 
 # a helper function for setting initial probabilities for each module
-def set_initial_prob(module, data, patient, debug):
+def set_initial_prob(module, data, patient, prob):
     """
     Set initial probabilities for each module
     Including recalculating them based on static characteristics
@@ -10,7 +10,7 @@ def set_initial_prob(module, data, patient, debug):
         module: module name
         data: a dataframe of input settings
         patient: a dictionary of patient object
-        debug: boolean, whether to show debugging information
+        prob: boolean, whether to show probability information
     Returns:
         states: a list of possible states
         posterior_trans_prob: posterior state transition probabilities
@@ -27,7 +27,7 @@ def set_initial_prob(module, data, patient, debug):
     for i in range(len(states)):
       posterior_trans_prob.append(prior_trans_prob.iloc[i,3:-1].values.tolist())
 
-    if debug:
+    if prob:
       print()
       print(f"Module: {module}")
       print(f"Possible states: {states}")
@@ -35,10 +35,10 @@ def set_initial_prob(module, data, patient, debug):
 
     ## amend prior transition probabilities based on static characteristics
     for row in static_char.itertuples():
-      multiplications, changed = amend_prob_char(row, patient, debug)
+      multiplications, changed = amend_prob_char(row, patient, prob)
       if changed:
         posterior_trans_prob = amend_prob(posterior_trans_prob, [multiplications]*len(states))
-        if debug:
+        if prob:
           print(f"- Posterior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_trans_prob]))
 
     return states, posterior_trans_prob
@@ -94,7 +94,7 @@ def amend_prob(probabilities, amendments):
   return probabilities
 
 # a function to check for relevant
-def check_char_equality(char, data, debug):
+def check_char_equality(char, data, prob):
   """
   A function to check if the characteristics is equal, greater than or less than
   Parameters:
@@ -117,31 +117,31 @@ def check_char_equality(char, data, debug):
       # get multiplication values
       mult = char[4:-1]
       changed = True
-      print_multiplications(char[2],char[3], mult, debug)
+      print_multiplications(char[2],char[3], mult, prob)
   # or less than
   elif char[3][0] == '<':
     if int(data[char[2]]) < int(char[3][1:]):
       mult = char[4:-1]
       changed = True
-      print_multiplications(char[2],char[3], mult, debug)
+      print_multiplications(char[2],char[3], mult, prob)
   # otherwise assume equals
   else:
     if data[char[2]] == char[3]:
       mult= char[4:-1]
       changed = True
-      print_multiplications(char[2],char[3], mult, debug)
+      print_multiplications(char[2],char[3], mult, prob)
 
   return changed, mult
 
 # a function to multiply probabilities based on characteristics
-def amend_prob_char(char, current_data, debug, previous_data = {}):
+def amend_prob_char(char, current_data, prob, previous_data = {}):
   """
   A function to iterate over given characteristics and extract relevant
   multiplications.
   Parameters:
     char: a row of a dataframe containing characteristics
     current_data: a dictionary containing patient or timeline information
-    debug: boolean, whether to show debugging information
+    prob: boolean, whether to show probability information
     previous_data: a dictionary containing previous timeline, by default an empty dict
   Returns:
     mult: either list of 1s or multiplication to multiply probabilities by
@@ -157,34 +157,34 @@ def amend_prob_char(char, current_data, debug, previous_data = {}):
   # check for current data
   if char[2] in set(current_data.keys()):
     # get multiplication if relevant
-    changed, mult = check_char_equality(char, current_data, debug)
+    changed, mult = check_char_equality(char, current_data, prob)
 
   # check if that characteristic is present in previous timeline
   # this allows for circular dependencies to take effect
   elif (previous_data != None) & (char[2] in set(previous_data.keys())):
     # get multiplication if relevant
-    changed, mult = check_char_equality(char, previous_data, debug)
+    changed, mult = check_char_equality(char, previous_data, prob)
 
   return mult, changed
 
-# a helper for printing debugging information
-def print_multiplications(variable, value, mult, debug):
+# a helper for printing probability information
+def print_multiplications(variable, value, mult, prob):
   """
-  A function to print debugging information when relevant
+  A function to print probability information when relevant
   Paramteres:
     variable: variable name
     value: variable's value
     multiplication: mutliplication values to use
-    debug: boolean, whether to show debugging information
+    prob: boolean, whether to show probability information
   Returns:
     None
   """
-  if debug:
+  if prob:
     print(f"- Relevant variable: {variable}; value: {value}")
     print(f"- Prior probabilities need multiplying by: {mult}")
 
 # module runner
-def run_module(module, data, age_range, patient, current_timeline, previous_timeline, module_dict, debug):
+def run_module(module, data, age_range, patient, current_timeline, previous_timeline, module_dict, prob):
   """
   A function to generate a record for current age range.
   Parameters:
@@ -195,7 +195,7 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
     current_timeline: a dictionary of current timeline so far
     previous_timeline: a dictionary of previours timeline
     module_dict: a dictionary of states and probabilities for modules
-    debug: boolean, whether to show debugging information
+    prob: boolean, whether to show probability information
   Returns:
     state: selected state
     module_dict: an updated dictionary of modules
@@ -212,7 +212,7 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
   static_char = data.loc[data['type'] == 'StaticChar']
   dynamic_char = data.loc[data['type'] == 'DynamicChar']
 
-  if debug:
+  if prob:
     print(f"---------------------")
     print(f"Module: {module}")
     print(f"---------------------")
@@ -222,37 +222,37 @@ def run_module(module, data, age_range, patient, current_timeline, previous_time
     ## initial set up
     # get the relevant prior initial probabilities
     probabilities = prior_initial_prob.loc[prior_initial_prob['value'] == age_range][states].values
-    if debug:
+    if prob:
       print(f"- Initial probabilities: {probabilities}")
     ## amend initial setup based on static characteristics
     for row in static_char.itertuples():
-      mult, changed = amend_prob_char(row, patient, debug)
+      mult, changed = amend_prob_char(row, patient, prob)
       if changed:
         probabilities = amend_prob(probabilities, [mult])
-        if debug:
+        if prob:
           print(f"- Posterior probabilities: "+str([[f"{x:.3f}" for x in y] for y in probabilities]))
 
     # choose the state
     module_state = choices(states, probabilities[0], k=1)[0]
-    if debug:
+    if prob:
       print(f"== Selected state: {module_state} ==")
 
   ## transitions
   # if age_range is not included in the set up
   if age_range not in set(prior_initial_prob['value'].values):
-    if debug:
+    if prob:
       print(f"- Prior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_trans_prob]))
     # amend transitions based on dynamic characteristics
     for row in dynamic_char.itertuples():
-      mult, changed = amend_prob_char(row, current_timeline, debug, previous_timeline)
+      mult, changed = amend_prob_char(row, current_timeline, prob, previous_timeline)
       if changed:
         posterior_trans_prob = amend_prob(posterior_trans_prob, [mult]*len(states))
-        if debug:
+        if prob:
           print(f"- Posterior state transition probabilities: "+str([[f"{x:.3f}" for x in y] for y in posterior_trans_prob]))
 
     # choose the next state
     module_state = mcmc(states, posterior_trans_prob, module_dict[module][2])
-    if debug:
+    if prob:
       print(f"== Selected state: {module_state} ==")
   
   # update the module dictionary with new t probabilities

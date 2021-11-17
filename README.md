@@ -58,8 +58,9 @@ or
 generate_patients --population 2
 ```
 #### print detailed information about probabilities and transitions for each state
+Best to run with just 1 patient as it outputs a lot of information for each patient.
 ```
-generate_patients --debug
+generate_patients -p 1 --prob
 ```
 #### print information about each patient
 ```
