@@ -1,0 +1,8 @@
+﻿type,variable,value,No disease,Disease A,Comment
+PriorInitialProb,age_range,0_4,0.9,0.1,
+PriorTransProb,prob,No disease,0.9,0.1,
+PriorTransProb,prob,Disease A,0,1,
+StaticChar,gender,Male,1,2,
+StaticChar,gender,Female,1,0.5,
+DynamicChar,age_range,15_19,1,1.5,
+DynamicChar,age_range,40_44,1,2,
